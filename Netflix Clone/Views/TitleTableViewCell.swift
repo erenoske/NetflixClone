@@ -63,7 +63,7 @@ class TitleTableViewCell: UITableViewCell {
         ]
         
         let playTitleButtonConstraints = [
-            playTitleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            playTitleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0),
             playTitleButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         

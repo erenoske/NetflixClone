@@ -23,7 +23,10 @@ class HomeViewController: UIViewController {
     let sectionTitles: [String] = ["Trending Movies", "Trending Tv", "Populer", "Up Coming Movies", "Top rated"]
     
     private let homeFeedTable: UITableView = {
+        
         let table = UITableView(frame: .zero, style: .grouped)
+        table.separatorStyle = .none
+        table.backgroundColor = .systemBackground
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table
     }()
@@ -68,10 +71,19 @@ class HomeViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .done, target: self, action: nil)
         
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil),
-            UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
+            UIBarButtonItem(
+                image: UIImage(systemName: "magnifyingglass"),
+                style: .done, 
+                target: self,
+                action: #selector(rightBarButtonTapped)
+            ),
         ]
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .label
+    }
+    
+    @objc private func rightBarButtonTapped() {
+        let viewController = SearchViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -187,14 +199,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
    //
    //     navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
    // }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        if cell.responds(to: #selector(setter: UIView.layoutMargins)) {
-            cell.layoutMargins = UIEdgeInsets.zero
-        }
-    }
 
 }
 

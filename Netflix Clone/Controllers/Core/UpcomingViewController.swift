@@ -15,6 +15,7 @@ class UpcomingViewController: UIViewController {
         
         let table = UITableView()
         table.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
+        table.separatorStyle = .none
         return table
     }()
     
@@ -26,6 +27,7 @@ class UpcomingViewController: UIViewController {
         title = "Upcoming"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.tintColor = .label
         
         view.addSubview(upcomingTable)
         upcomingTable.delegate = self

@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     private let discoverTable: UITableView = {
         let table = UITableView()
         table.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
+        table.separatorStyle = .none
         return table
     }()
     
@@ -27,15 +28,13 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Search"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
         
         view.backgroundColor = .systemBackground
         view.addSubview(discoverTable)
         discoverTable.delegate = self
         discoverTable.dataSource = self
         
+        navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
         navigationController?.navigationBar.tintColor = .white
         
