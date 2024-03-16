@@ -7,7 +7,15 @@
 
 import UIKit
 
+protocol HeroHeaderUIViewDelegate {
+    func didSelectMovie(viewModel: TitlePreiwViewModel)
+}
+
 class HeroHeaderUIView: UIView {
+    
+    var delegate: HeroHeaderUIViewDelegate?
+    
+    private var title: Title?
     
     private let downloadButton: UIButton = {
        
@@ -35,7 +43,7 @@ class HeroHeaderUIView: UIView {
        
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -55,8 +63,36 @@ class HeroHeaderUIView: UIView {
         addGradient()
         addSubview(playButton)
         addSubview(downloadButton)
+        
+        playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+        
         applyConstraints()
         
+    }
+    
+    @objc func playButtonTapped() {
+        guard let titleName = title?.original_title ?? title?.original_name else {
+            return
+        }
+        
+        
+        APICaller.shared.getMovie(with: titleName + " trailer") { [weak self] result in
+            switch result {
+            case .success(let videoElement):
+                
+                guard let titleOverview = self?.title?.overview else {
+                    return
+                }
+                
+                let viewModel = TitlePreiwViewModel(
+                    title: titleName,
+                    youtubeView: videoElement,
+                    titleOverview: titleOverview)
+                self?.delegate?.didSelectMovie(viewModel: viewModel)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func applyConstraints() {
@@ -77,7 +113,14 @@ class HeroHeaderUIView: UIView {
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
-    public func configure(with model: TitleViewModel, and title: Title) {
+    public func configure(with model: TitleViewModel, and title: Title?) {
+        
+        guard let safeTitle = title else {
+            return
+        }
+        
+        self.title = safeTitle
+        
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(model.posterURL)") else {
             return
         }

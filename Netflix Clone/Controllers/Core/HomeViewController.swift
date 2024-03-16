@@ -43,6 +43,7 @@ class HomeViewController: UIViewController {
         configureNavbar()
         
         headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        headerView?.delegate = self
         homeFeedTable.tableHeaderView = headerView
         configureHeroHeaderView()
     }
@@ -57,7 +58,8 @@ class HomeViewController: UIViewController {
                     with: TitleViewModel(
                     titleName: selectedTitle?.original_name ?? selectedTitle?.original_name ?? "",
                     posterURL: selectedTitle?.poster_path ?? ""
-                    ), and: Title(id: selectedTitle!.id, media_type: selectedTitle?.media_type, original_name: selectedTitle?.original_name, original_title: selectedTitle?.original_title, poster_path: selectedTitle?.poster_path, overview: selectedTitle?.overview, vote_count: selectedTitle?.vote_count ?? 0, release_date: selectedTitle?.release_date, vote_average: selectedTitle?.vote_average ?? 0)
+                    ) , 
+                    and: selectedTitle
                 )
             case .failure(let error):
                 print(error.localizedDescription)
@@ -68,7 +70,13 @@ class HomeViewController: UIViewController {
     private func configureNavbar() {
         var image = UIImage(named: "netflixLogo")
         image = image?.withRenderingMode(.alwaysOriginal)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .done, target: self, action: nil)
+        navigationItem.leftBarButtonItem = 
+        UIBarButtonItem(
+            image: image,
+            style: .done,
+            target: self,
+            action: nil
+        )
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
@@ -212,5 +220,17 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
         }
 
     }
+}
+
+extension HomeViewController: HeroHeaderUIViewDelegate {
+    
+    func didSelectMovie(viewModel: TitlePreiwViewModel) {
+        DispatchQueue.main.async  { [weak self] in
+            let vc = TitlePreviewViewController()
+            vc.configure(with: viewModel)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
 }
 
