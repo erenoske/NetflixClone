@@ -17,14 +17,34 @@ class HeroHeaderUIView: UIView {
     
     private var title: Title?
     
+    private let titleLabel: UILabel = {
+       
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let stackView: UIStackView = {
+        
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 20
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     private let downloadButton: UIButton = {
        
         let button = UIButton()
         button.setTitle("Download", for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
+        button.tintColor = .label
+        button.setTitleColor(.label, for: .normal)
+        button.layer.borderColor = UIColor.label.cgColor
         button.layer.borderWidth = 1
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
+        button.widthAnchor.constraint(equalToConstant: 120).isActive = true
         return button
     }()
     
@@ -32,10 +52,13 @@ class HeroHeaderUIView: UIView {
        
         let button = UIButton()
         button.setTitle("Play", for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
+        button.tintColor = .label
+        button.setTitleColor(.label, for: .normal)
+        button.layer.borderColor = UIColor.label.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 120).isActive = true
         return button
     }()
     
@@ -43,7 +66,11 @@ class HeroHeaderUIView: UIView {
        
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.borderColor = UIColor.label.cgColor
+        imageView.layer.borderWidth = 1
+        imageView.layer.cornerRadius = 5
         imageView.layer.masksToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -59,10 +86,14 @@ class HeroHeaderUIView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        stackView.addArrangedSubview(playButton)
+        stackView.addArrangedSubview(downloadButton)
+        
         addSubview(heroImageView)
         addGradient()
-        addSubview(playButton)
-        addSubview(downloadButton)
+        addSubview(titleLabel)
+        addSubview(stackView)
         
         playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
         
@@ -96,21 +127,28 @@ class HeroHeaderUIView: UIView {
     }
     
     private func applyConstraints() {
+        
+        let heroImageViewConstraints = [
+            heroImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            heroImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            heroImageView.widthAnchor.constraint(equalToConstant: 300),
+            heroImageView.heightAnchor.constraint(equalToConstant: 420)
+        ]
+        
+        let titleLabelConstraints = [
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -80)
+        ]
 
         let playButtonConstraints = [
-            playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
-            playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
-            playButton.widthAnchor.constraint(equalToConstant: 110)
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
+            stackView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ]
         
-        let downloadButtonConstraints = [
-            downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70),
-            downloadButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
-            downloadButton.widthAnchor.constraint(equalToConstant: 110)
-        ]
         
         NSLayoutConstraint.activate(playButtonConstraints)
-        NSLayoutConstraint.activate(downloadButtonConstraints)
+        NSLayoutConstraint.activate(heroImageViewConstraints)
+        NSLayoutConstraint.activate(titleLabelConstraints)
     }
     
     public func configure(with model: TitleViewModel, and title: Title?) {
@@ -119,18 +157,25 @@ class HeroHeaderUIView: UIView {
             return
         }
         
-        self.title = safeTitle
+        guard let titleName = title?.original_title ?? title?.original_name else {
+            return
+        }
         
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(model.posterURL)") else {
             return
         }
         
+        self.title = safeTitle
+        
         heroImageView.sd_setImage(with: url, completed: nil)
+        
+        DispatchQueue.main.async {
+            self.titleLabel.text = titleName
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        heroImageView.frame = bounds
     }
     
     required init?(coder: NSCoder) {
