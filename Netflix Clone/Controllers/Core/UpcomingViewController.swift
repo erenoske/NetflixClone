@@ -28,6 +28,7 @@ class UpcomingViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.tintColor = .label
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         
         view.addSubview(upcomingTable)
         upcomingTable.delegate = self
@@ -69,7 +70,6 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
         
         let title = titles[indexPath.row]
         cell.configure(with: TitleViewModel(titleName: (title.original_title ?? title.original_name) ?? "Unknown Name", posterURL: title.poster_path ?? "Url not found"))
-        cell.selectionStyle = .none
         return cell
     }
     

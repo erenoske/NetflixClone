@@ -28,6 +28,7 @@ class HomeViewController: UIViewController {
         table.separatorStyle = .none
         table.backgroundColor = .systemBackground
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
+        table.showsVerticalScrollIndicator = false
         return table
     }()
 
@@ -87,6 +88,7 @@ class HomeViewController: UIViewController {
             ),
         ]
         navigationController?.navigationBar.tintColor = .label
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
     @objc private func rightBarButtonTapped() {

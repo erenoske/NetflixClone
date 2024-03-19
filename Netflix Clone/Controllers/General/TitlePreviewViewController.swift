@@ -96,7 +96,7 @@ class TitlePreviewViewController: UIViewController {
         ]
         
         let width = view.frame.width
-        let webViewHeight: CGFloat = width * 16 / 10 // Aspect ratio 16:10
+        let webViewHeight: CGFloat = width * 10 / 16 // Aspect ratio 16:10
 
         // Constraints for webView
         let webViewConstraints = [

@@ -11,6 +11,7 @@ protocol SearchResultsViewControllerDelagate: AnyObject {
     func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel)
 }
 
+
 class SearchResultsViewController: UIViewController {
     
     

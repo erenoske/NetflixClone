@@ -71,6 +71,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B054E5182BA7729C000D6944 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				B0AAEEF22B96D197006D81AC /* SceneDelegate.swift */,
+				B0AAEEF02B96D197006D81AC /* AppDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
 		B0AAEEE42B96D197006D81AC = {
 			isa = PBXGroup;
 			children = (
@@ -90,15 +99,13 @@
 		B0AAEEEF2B96D197006D81AC /* Netflix Clone */ = {
 			isa = PBXGroup;
 			children = (
+				B054E5182BA7729C000D6944 /* Delegate */,
 				B0AAEF112B976DE9006D81AC /* Managers */,
 				B0AAEF102B976DDB006D81AC /* Resources */,
 				B0AAEF0F2B976DCD006D81AC /* Models */,
 				B0AAEF0E2B976DC3006D81AC /* ViewsModels */,
 				B0AAEF0D2B976DBB006D81AC /* Views */,
 				B0AAEF042B96D2EE006D81AC /* Controllers */,
-				B0AAEEF02B96D197006D81AC /* AppDelegate.swift */,
-				B0AAEEF22B96D197006D81AC /* SceneDelegate.swift */,
-				B0AAEEF42B96D197006D81AC /* MainTabBarViewController.swift */,
 				B0AAEEF92B96D198006D81AC /* Assets.xcassets */,
 				B0AAEEFB2B96D198006D81AC /* LaunchScreen.storyboard */,
 				B0AAEEFE2B96D198006D81AC /* Info.plist */,
@@ -167,6 +174,7 @@
 				B0AAEF072B96D32B006D81AC /* UpcomingViewController.swift */,
 				B0AAEF092B96D336006D81AC /* SearchViewController.swift */,
 				B0AAEF0B2B96D353006D81AC /* DownloadsViewController.swift */,
+				B0AAEEF42B96D197006D81AC /* MainTabBarViewController.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";

@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     private let discoverTable: UITableView = {
         let table = UITableView()
         table.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
+        table.showsVerticalScrollIndicator = false
         table.separatorStyle = .none
         return table
     }()
@@ -21,7 +22,7 @@ class SearchViewController: UIViewController {
     private let searchController: UISearchController = {
        let controller = UISearchController(searchResultsController: SearchResultsViewController())
         controller.searchBar.placeholder = "Search for a Movie or a Tv show"
-        controller.searchBar.searchBarStyle = .minimal
+        controller.hidesNavigationBarDuringPresentation = false
         return controller
     }()
 
@@ -34,13 +35,17 @@ class SearchViewController: UIViewController {
         discoverTable.delegate = self
         discoverTable.dataSource = self
         
-        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.searchController = searchController
-        navigationController?.navigationBar.tintColor = .white
-        
+        configureNavigationBar()
         fetchDiscoverMovies()
         
         searchController.searchResultsUpdater = self
+    }
+    
+    private func configureNavigationBar() {
+        navigationController?.navigationBar.tintColor = .label
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.titleView = searchController.searchBar
+        definesPresentationContext = true
     }
     
     private func fetchDiscoverMovies() {
@@ -64,7 +69,7 @@ class SearchViewController: UIViewController {
     
 }
 
-extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titles.count
@@ -79,7 +84,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         let title = titles[indexPath.row]
         let model = TitleViewModel(titleName: title.original_name ?? title.original_title ?? "Unknown", posterURL: title.poster_path ?? "URL not found")
         cell.configure(with: model)
-        cell.selectionStyle = .none
         
         return cell
     }
@@ -109,10 +113,11 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 print(error.localizedDescription)
             }
         }
-    }   
+    }
 }
 
-extension SearchViewController: UISearchResultsUpdating, SearchResultsViewControllerDelagate {
+extension SearchViewController: UISearchResultsUpdating, SearchResultsViewControllerDelagate  {
+    
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
         
@@ -142,10 +147,20 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsViewContro
     
     
     func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel) {
+        navigationController?.navigationBar.transform = .identity
         DispatchQueue.main.async { [weak self] in
             let vc = TitlePreviewViewController()
             vc.configure(with: viewModel)
             self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+extension UIVisualEffectView {
+    func asImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: self.bounds.size)
+        return renderer.image { _ in
+            self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
         }
     }
 }

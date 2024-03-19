@@ -20,6 +20,8 @@ class HeroHeaderUIView: UIView {
     private let titleLabel: UILabel = {
        
         let label = UILabel()
+        label.textColor = .label
+        label.font = .systemFont(ofSize: 16, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -36,29 +38,33 @@ class HeroHeaderUIView: UIView {
     
     private let downloadButton: UIButton = {
        
-        let button = UIButton()
-        button.setTitle("Download", for: .normal)
-        button.tintColor = .label
-        button.setTitleColor(.label, for: .normal)
-        button.layer.borderColor = UIColor.label.cgColor
-        button.layer.borderWidth = 1
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = "List"
+        configuration.image = UIImage(systemName: "plus")
+        configuration.baseBackgroundColor = .black
+        configuration.imagePadding = 10
+        let button = UIButton(configuration: configuration)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .white
+        button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 5
-        button.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        button.clipsToBounds = true
         return button
     }()
     
     private let playButton: UIButton = {
-       
-        let button = UIButton()
-        button.setTitle("Play", for: .normal)
-        button.tintColor = .label
-        button.setTitleColor(.label, for: .normal)
-        button.layer.borderColor = UIColor.label.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 5
+        
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = "Play"
+        configuration.image = UIImage(systemName: "play.fill")
+        configuration.baseBackgroundColor = .black
+        configuration.imagePadding = 10
+        let button = UIButton(configuration: configuration)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        button.layer.cornerRadius = 5
+        button.backgroundColor = .white
+        button.tintColor = .black
+        button.clipsToBounds = true
         return button
     }()
     
@@ -140,15 +146,26 @@ class HeroHeaderUIView: UIView {
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -80)
         ]
 
-        let playButtonConstraints = [
+        let stackViewConstraints = [
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ]
         
+        let playButtonConstraints = [
+            playButton.widthAnchor.constraint(equalToConstant: 120),
+            playButton.heightAnchor.constraint(equalToConstant: 35)
+        ]
         
-        NSLayoutConstraint.activate(playButtonConstraints)
+        let downloadButtonConstraints = [
+            downloadButton.widthAnchor.constraint(equalToConstant: 120),
+            downloadButton.heightAnchor.constraint(equalToConstant: 35)
+        ]
+        
+        NSLayoutConstraint.activate(stackViewConstraints)
         NSLayoutConstraint.activate(heroImageViewConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
+        NSLayoutConstraint.activate(playButtonConstraints)
+        NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
     public func configure(with model: TitleViewModel, and title: Title?) {
