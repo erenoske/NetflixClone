@@ -137,8 +137,8 @@ class HeroHeaderUIView: UIView {
         let heroImageViewConstraints = [
             heroImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             heroImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            heroImageView.widthAnchor.constraint(equalToConstant: 300),
-            heroImageView.heightAnchor.constraint(equalToConstant: 420)
+            heroImageView.widthAnchor.constraint(equalToConstant: 320),
+            heroImageView.heightAnchor.constraint(equalToConstant: 440)
         ]
         
         let titleLabelConstraints = [

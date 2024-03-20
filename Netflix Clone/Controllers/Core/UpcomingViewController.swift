@@ -16,6 +16,7 @@ class UpcomingViewController: UIViewController {
         let table = UITableView()
         table.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
         table.separatorStyle = .none
+        table.showsVerticalScrollIndicator = false
         return table
     }()
     
@@ -24,17 +25,42 @@ class UpcomingViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        title = "Upcoming"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.tintColor = .label
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        configureNavbar()
         
         view.addSubview(upcomingTable)
         upcomingTable.delegate = self
         upcomingTable.dataSource = self
         
         fetchUpcoming()
+    }
+    
+    private func configureNavbar() {
+        title = "New And Populer"
+        var image = UIImage(named: "netflixLogo")
+        image = image?.withRenderingMode(.alwaysOriginal)
+        navigationItem.leftBarButtonItem =
+        UIBarButtonItem(
+            image: image,
+            style: .done,
+            target: self,
+            action: nil
+        )
+        
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(
+                image: UIImage(systemName: "magnifyingglass"),
+                style: .done,
+                target: self,
+                action: #selector(rightBarButtonTapped)
+            ),
+        ]
+        navigationController?.navigationBar.tintColor = .label
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    }
+    
+    @objc private func rightBarButtonTapped() {
+        let viewController = SearchViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     override func viewDidLayoutSubviews() {

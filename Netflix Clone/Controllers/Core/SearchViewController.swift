@@ -22,7 +22,6 @@ class SearchViewController: UIViewController {
     private let searchController: UISearchController = {
        let controller = UISearchController(searchResultsController: SearchResultsViewController())
         controller.searchBar.placeholder = "Search for a Movie or a Tv show"
-        controller.hidesNavigationBarDuringPresentation = false
         return controller
     }()
 
@@ -42,10 +41,11 @@ class SearchViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
+        title = "Search"
+        navigationItem.hidesSearchBarWhenScrolling = false
         navigationController?.navigationBar.tintColor = .label
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.titleView = searchController.searchBar
-        definesPresentationContext = true
+        navigationItem.searchController = searchController
     }
     
     private func fetchDiscoverMovies() {
@@ -65,6 +65,16 @@ class SearchViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         discoverTable.frame = view.bounds
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
     
 }
@@ -152,15 +162,6 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsViewContro
             let vc = TitlePreviewViewController()
             vc.configure(with: viewModel)
             self?.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-}
-
-extension UIVisualEffectView {
-    func asImage() -> UIImage {
-        let renderer = UIGraphicsImageRenderer(size: self.bounds.size)
-        return renderer.image { _ in
-            self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
         }
     }
 }

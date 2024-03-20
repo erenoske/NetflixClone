@@ -23,7 +23,7 @@ class SearchResultsViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         
         let screenWidth = UIScreen.main.bounds.width
-        let itemWidth = screenWidth / 2 - 10
+        let itemWidth = screenWidth / 3 - 10
         let itemHeight = itemWidth * 1.5
         
         layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
