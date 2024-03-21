@@ -5,6 +5,7 @@
 - UIKit
 - MVVM (Model-View-ViewModel) architecture
 - The Movie Database (TMDb) API
+- SDWebImage
 
 <img width="250" alt="Ekran Resmi" src="https://github.com/erenoske/NetflixClone/assets/108978390/d2ff1c78-d821-41ce-b4cc-4c07a51dd947">
 <img width="250" alt="Ekran Resmi 2024-03-21 04 12 35" src="https://github.com/erenoske/NetflixClone/assets/108978390/0743e422-fc24-4d9a-bfe6-f5d977fbd4ed">
