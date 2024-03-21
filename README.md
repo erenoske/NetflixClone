@@ -1,4 +1,4 @@
 # Netflix Clone
 <img width="300" alt="Ekran Resmi" src="https://github.com/erenoske/NetflixClone/assets/108978390/d2ff1c78-d821-41ce-b4cc-4c07a51dd947">
-
-
+<img width="300" alt="Ekran Resmi 2024-03-21 04 12 35" src="https://github.com/erenoske/NetflixClone/assets/108978390/0743e422-fc24-4d9a-bfe6-f5d977fbd4ed">
+<img width="300" alt="Ekran Resmi 2024-03-21 04 10 08" src="https://github.com/erenoske/NetflixClone/assets/108978390/5fe1cbdb-e7c3-4d39-8eb3-5184cffb9201">
