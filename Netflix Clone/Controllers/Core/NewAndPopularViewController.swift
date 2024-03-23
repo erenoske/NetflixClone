@@ -1,5 +1,5 @@
 //
-//  UpcomingViewController.swift
+//  NewAndPopularViewController.swift
 //  Netflix Clone
 //
 //  Created by eren on 5.03.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UpcomingViewController: UIViewController {
+class NewAndPopularViewController: UIViewController {
     
     private var titles: [Title] = [Title]()
     
@@ -35,7 +35,7 @@ class UpcomingViewController: UIViewController {
     }
     
     private func configureNavbar() {
-        title = "New And Populer"
+        title = "New And Popular"
         var image = UIImage(named: "netflixLogo")
         image = image?.withRenderingMode(.alwaysOriginal)
         navigationItem.leftBarButtonItem =
@@ -83,7 +83,7 @@ class UpcomingViewController: UIViewController {
     }
 }
 
-extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
+extension NewAndPopularViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titles.count
