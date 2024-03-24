@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol HeroHeaderUIViewDelegate {
+protocol HeroHeaderUIViewDelegate: AnyObject {
     func didSelectMovie(viewModel: TitlePreiwViewModel)
 }
 
 class HeroHeaderUIView: UIView {
     
-    var delegate: HeroHeaderUIViewDelegate?
+    weak var delegate: HeroHeaderUIViewDelegate?
     
     private var title: Title?
     
