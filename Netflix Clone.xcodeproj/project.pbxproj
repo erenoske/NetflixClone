@@ -99,6 +99,7 @@
 		B0AAEEEF2B96D197006D81AC /* Netflix Clone */ = {
 			isa = PBXGroup;
 			children = (
+				B0AAEEF42B96D197006D81AC /* MainTabBarViewController.swift */,
 				B0B291B42BAB3E8D00D39902 /* Files */,
 				B054E5182BA7729C000D6944 /* Delegates */,
 				B0AAEF112B976DE9006D81AC /* Managers */,
@@ -181,7 +182,6 @@
 			children = (
 				B0AAEF322B9AD7FD006D81AC /* TitlePreviewViewController.swift */,
 				B0AAEF2A2B9A90E8006D81AC /* SearchResultsViewController.swift */,
-				B0AAEEF42B96D197006D81AC /* MainTabBarViewController.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
