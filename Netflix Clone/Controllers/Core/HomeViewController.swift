@@ -31,6 +31,8 @@ class HomeViewController: UIViewController {
         table.showsVerticalScrollIndicator = false
         return table
     }()
+    
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +49,23 @@ class HomeViewController: UIViewController {
         headerView?.delegate = self
         homeFeedTable.tableHeaderView = headerView
         configureHeroHeaderView()
+        setupRefreshControl()
+    }
+    
+    private func setupRefreshControl() {
+        refreshControl.tintColor = .label
+        refreshControl.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
+        homeFeedTable.refreshControl = refreshControl
+    }
+    
+    @objc private func refreshContent() {
+        configureHeroHeaderView()
     }
     
     private func configureHeroHeaderView() {
+        let group = DispatchGroup()
+        
+        group.enter()
         APICaller.shared.getTrendingMovies { [weak self] result in
             switch result {
             case .success(let titles):
@@ -65,6 +81,11 @@ class HomeViewController: UIViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            self.homeFeedTable.refreshControl?.endRefreshing()
         }
     }
     
