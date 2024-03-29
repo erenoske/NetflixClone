@@ -35,7 +35,6 @@ class NewAndPopularViewController: UIViewController {
     }
     
     private func configureNavbar() {
-        title = "New And Popular"
         var image = UIImage(named: "netflixLogo")
         image = image?.withRenderingMode(.alwaysOriginal)
         navigationItem.leftBarButtonItem =

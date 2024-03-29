@@ -77,6 +77,7 @@ class HeroHeaderUIView: UIView {
         imageView.layer.cornerRadius = 5
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.backgroundColor = .systemGray6
         return imageView
     }()
     
@@ -102,9 +103,21 @@ class HeroHeaderUIView: UIView {
         addSubview(stackView)
         
         playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
         
         applyConstraints()
         
+    }
+    
+    @objc func downloadButtonTapped() {
+        DataPersistenceManager.shared.downloadTitleWith(model: title!) { result in
+            switch result {
+            case .success():
+                NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     @objc func playButtonTapped() {

@@ -18,6 +18,7 @@ class TitleCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 5
         imageView.layer.masksToBounds = true
+        imageView.backgroundColor = .systemGray6
         return imageView
     }()
     

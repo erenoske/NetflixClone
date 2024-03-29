@@ -32,6 +32,7 @@ class SearchResultsViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TitleCollectionViewCell.self, forCellWithReuseIdentifier: TitleCollectionViewCell.identifier)
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
 

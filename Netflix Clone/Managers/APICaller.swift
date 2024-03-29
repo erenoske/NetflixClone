@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SystemConfiguration
 
 struct Constants {
     static let API_KEY = "2faa3eaa93dc9edc706c637e27a3902d"
@@ -19,7 +20,9 @@ enum APIError: Error {
 }
 
 class APICaller {
+    
     static let shared = APICaller()
+    
     
     func getTrendingMovies(completion: @escaping (Result<[Title], Error>) -> Void) {
         guard let url = URL(string: "\(Constants.baseURL)/3/trending/movie/day?api_key=\(Constants.API_KEY)") else {

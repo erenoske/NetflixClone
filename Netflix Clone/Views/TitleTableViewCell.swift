@@ -16,7 +16,7 @@ class TitleTableViewCell: UITableViewCell {
         let image = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30))
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = .white
+        button.tintColor = .label
         return button
     }()
     
@@ -36,6 +36,7 @@ class TitleTableViewCell: UITableViewCell {
         imageView.layer.cornerRadius = 5
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.backgroundColor = .systemGray6
         return imageView
     }()
     

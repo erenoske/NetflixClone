@@ -26,7 +26,6 @@ class TitlePreviewViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .bold)
-        label.text = "Harry Potter"
         label.numberOfLines = 0
         return label
     }()
@@ -35,19 +34,23 @@ class TitlePreviewViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.text = "This is the best movie ever to watch as a kid!"
         label.numberOfLines = 0
         return label
     }()
     
     private let downloadButton: UIButton = {
-        let button = UIButton()
+        
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = "List"
+        configuration.image = UIImage(systemName: "plus")
+        configuration.baseBackgroundColor = .black
+        configuration.imagePadding = 10
+        let button = UIButton(configuration: configuration)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .red
-        button.setTitle("Download", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.tintColor = .white
+        button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
+        button.clipsToBounds = true
         return button
     }()
     
@@ -77,6 +80,7 @@ class TitlePreviewViewController: UIViewController {
         configureConstraints()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
@@ -88,6 +92,7 @@ class TitlePreviewViewController: UIViewController {
     }
 
     func configureConstraints() {
+        
         // Constraints for scrollView
         let scrollViewConstraints = [
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),

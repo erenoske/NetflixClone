@@ -29,6 +29,7 @@ class HomeViewController: UIViewController {
         table.backgroundColor = .systemBackground
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         table.showsVerticalScrollIndicator = false
+        table.allowsSelection = false
         return table
     }()
     
