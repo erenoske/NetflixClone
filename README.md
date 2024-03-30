@@ -13,3 +13,4 @@
 - The Movie Database (TMDb) API
 - Youtube API
 - SDWebImage
+- CoreData
