@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SearchResultsViewControllerDelagate: AnyObject {
-    func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel)
+    func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel, titleViewModel: Title)
 }
 
 
@@ -86,7 +86,7 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
                             title: title.original_title ?? "",
                             youtubeView: videoElement,
                             titleOverview: title.overview ?? ""
-                        )
+                        ), titleViewModel: title
                     )
                 }
         

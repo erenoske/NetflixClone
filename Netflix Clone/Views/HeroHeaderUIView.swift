@@ -8,7 +8,7 @@
 import UIKit
 
 protocol HeroHeaderUIViewDelegate: AnyObject {
-    func didSelectMovie(viewModel: TitlePreiwViewModel)
+    func didSelectMovie(viewModel: TitlePreiwViewModel, titleViewModel: Title)
 }
 
 class HeroHeaderUIView: UIView {
@@ -138,7 +138,7 @@ class HeroHeaderUIView: UIView {
                     title: titleName,
                     youtubeView: videoElement,
                     titleOverview: titleOverview)
-                self?.delegate?.didSelectMovie(viewModel: viewModel)
+                self?.delegate?.didSelectMovie(viewModel: viewModel, titleViewModel: self!.title!)
             case .failure(let error):
                 print(error.localizedDescription)
             }

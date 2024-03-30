@@ -237,10 +237,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController: CollectionViewTableViewCellDelegate {
     
-    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreiwViewModel) {
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreiwViewModel, titleViewModel: Title) {
         DispatchQueue.main.async  { [weak self] in
             let vc = TitlePreviewViewController()
-            vc.configure(with: viewModel)
+            vc.configure(with: viewModel, and: titleViewModel)
             self?.navigationController?.pushViewController(vc, animated: true)
         }
 
@@ -249,10 +249,10 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
 
 extension HomeViewController: HeroHeaderUIViewDelegate {
     
-    func didSelectMovie(viewModel: TitlePreiwViewModel) {
+    func didSelectMovie(viewModel: TitlePreiwViewModel, titleViewModel: Title) {
         DispatchQueue.main.async  { [weak self] in
             let vc = TitlePreviewViewController()
-            vc.configure(with: viewModel)
+            vc.configure(with: viewModel, and: titleViewModel)
             self?.navigationController?.pushViewController(vc, animated: true)
         }
     }

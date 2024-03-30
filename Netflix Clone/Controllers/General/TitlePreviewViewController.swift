@@ -9,6 +9,8 @@ import UIKit
 import WebKit
 
 class TitlePreviewViewController: UIViewController {
+    
+    private var titleModel: Title?
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -69,15 +71,34 @@ class TitlePreviewViewController: UIViewController {
         view.addSubview(scrollView)
         
         // Add contentView to scrollView
+
         scrollView.addSubview(contentView)
         
         // Add subviews to contentView
         contentView.addSubview(webView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(overviewLabel)
-        contentView.addSubview(downloadButton)
 
+        contentView.addSubview(downloadButton)
+        
         configureConstraints()
+        
+        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func downloadButtonTapped() {
+        
+        if let safeTitleModel = titleModel {
+            DataPersistenceManager.shared.downloadTitleWith(model: safeTitleModel) { result in
+                switch result {
+                case .success():
+                    NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+
     }
     
     
@@ -153,6 +174,19 @@ class TitlePreviewViewController: UIViewController {
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
+    func configure(with model: TitlePreiwViewModel, and titleModel: Title) {
+        titleLabel.text = model.title
+        overviewLabel.text = model.titleOverview
+        
+        self.titleModel = titleModel
+        
+        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeView.id.videoId)") else {
+            return
+        }
+        
+        webView.load(URLRequest(url: url))
+    }
+    
     func configure(with model: TitlePreiwViewModel) {
         titleLabel.text = model.title
         overviewLabel.text = model.titleOverview
@@ -163,4 +197,5 @@ class TitlePreviewViewController: UIViewController {
         
         webView.load(URLRequest(url: url))
     }
+
 }
