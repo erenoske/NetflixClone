@@ -11,7 +11,7 @@ import SystemConfiguration
 struct Constants {
     static let API_KEY = "2faa3eaa93dc9edc706c637e27a3902d"
     static let baseURL = "https://api.themoviedb.org/"
-    static let YoutubeAPI_KEY = "AIzaSyBdXnmuLgMOj_96CyH06-d--4_mW1VOhGQ"
+    static let YoutubeAPI_KEY = "AIzaSyCMmSfyrVUANJZEcHYm-UT1A8m9HCbSenY"
     static let YoutubeBaseUrl = "https://youtube.googleapis.com/youtube/v3/search?"
 }
 

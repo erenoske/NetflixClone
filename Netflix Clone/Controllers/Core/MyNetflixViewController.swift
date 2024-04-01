@@ -118,7 +118,8 @@ extension MyNetflixViewController: UITableViewDelegate, UITableViewDataSource {
         
         let title = titles[indexPath.row]
         let model = TitleViewModel(titleName: title.original_name ?? title.original_title ?? "Unknown", posterURL: title.poster_path ?? "URL not found")
-        cell.configure(with: model)
+        let titleModel = Title(id: Int(title.id), media_type: title.media_type, original_name: title.original_name, original_title: title.media_type, poster_path: title.poster_path, first_air_date: title.first_air_date, overview: title.overview, vote_count: Int(title.vote_count), release_date: title.release_date, vote_average: title.vote_average)
+        cell.configure(with: model, and: titleModel)
         
         return cell
     }
@@ -159,7 +160,8 @@ extension MyNetflixViewController: UITableViewDelegate, UITableViewDataSource {
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreiwViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""))
+                    let titleModel = Title(id: Int(title.id), media_type: title.media_type, original_name: title.original_name, original_title: title.media_type, poster_path: title.poster_path, first_air_date: title.first_air_date, overview: title.overview, vote_count: Int(title.vote_count), release_date: title.release_date, vote_average: title.vote_average)
+                    vc.configure(with: TitlePreiwViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), and: titleModel)
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):
