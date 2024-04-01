@@ -40,6 +40,52 @@ class TitlePreviewViewController: UIViewController {
         return label
     }()
     
+    private let starStackView: UIStackView = {
+       
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    private let dateStackView: UIStackView = {
+       
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    private let dateLabel: UILabel = {
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .label
+        return label
+    }()
+    
+    private let dateImage: UIImageView = {
+       
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "ticket")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .label
+        return imageView
+    }()
+    
+    private let starImage: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "star")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .systemYellow
+        return imageView
+    }()
+    
     private let downloadButton: UIButton = {
         
         var configuration = UIButton.Configuration.plain()
@@ -54,6 +100,14 @@ class TitlePreviewViewController: UIViewController {
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
         return button
+    }()
+    
+    private let voteAverage: UILabel = {
+       
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .systemYellow
+        return label
     }()
     
     private let webView: WKWebView = {
@@ -71,12 +125,20 @@ class TitlePreviewViewController: UIViewController {
         view.addSubview(scrollView)
         
         // Add contentView to scrollView
-
         scrollView.addSubview(contentView)
+        
+        // Stack
+        starStackView.addArrangedSubview(starImage)
+        starStackView.addArrangedSubview(voteAverage)
+        
+        dateStackView.addArrangedSubview(dateImage)
+        dateStackView.addArrangedSubview(dateLabel)
         
         // Add subviews to contentView
         contentView.addSubview(webView)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(starStackView)
+        contentView.addSubview(dateStackView)
         contentView.addSubview(overviewLabel)
 
         contentView.addSubview(downloadButton)
@@ -141,28 +203,38 @@ class TitlePreviewViewController: UIViewController {
             webView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             webView.heightAnchor.constraint(equalToConstant: webViewHeight)
         ]
+        
+        let starStackViewConstraints = [
+            starStackView.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 10),
+            starStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
+        ]
+        
+        let dateStackViewConstraints = [
+            dateStackView.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 10),
+            dateStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+        ]
 
         // Constraints for titleLabel
         let titleLabelConstraints = [
-            titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            titleLabel.topAnchor.constraint(equalTo: voteAverage.bottomAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ]
 
         // Constraints for overviewLabel
         let overviewLabelConstraints = [
-            overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            overviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            overviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ]
 
         // Constraints for downloadButton
         let downloadButtonConstraints = [
-            downloadButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 20),
+            downloadButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 10),
             downloadButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             downloadButton.widthAnchor.constraint(equalToConstant: 140),
             downloadButton.heightAnchor.constraint(equalToConstant: 40),
-            downloadButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            downloadButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ]
 
         // Activate constraints
@@ -170,6 +242,8 @@ class TitlePreviewViewController: UIViewController {
         NSLayoutConstraint.activate(contentViewConstraints)
         NSLayoutConstraint.activate(webViewConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
+        NSLayoutConstraint.activate(starStackViewConstraints)
+        NSLayoutConstraint.activate(dateStackViewConstraints)
         NSLayoutConstraint.activate(overviewLabelConstraints)
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
@@ -177,6 +251,8 @@ class TitlePreviewViewController: UIViewController {
     func configure(with model: TitlePreiwViewModel, and titleModel: Title) {
         titleLabel.text = model.title
         overviewLabel.text = model.titleOverview
+        voteAverage.text = String(format: "%.1f", titleModel.vote_average)
+        dateLabel.text = titleModel.release_date ?? titleModel.first_air_date
         
         self.titleModel = titleModel
         

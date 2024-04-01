@@ -94,7 +94,7 @@ extension NewAndPopularViewController: UITableViewDelegate, UITableViewDataSourc
         }
         
         let title = titles[indexPath.row]
-        cell.configure(with: TitleViewModel(titleName: (title.original_title ?? title.original_name) ?? "Unknown Name", posterURL: title.poster_path ?? "Url not found"))
+        cell.configure(with: TitleViewModel(titleName: (title.original_title ?? title.original_name) ?? "Unknown Name", posterURL: title.poster_path ?? "Url not found"), and: title)
         return cell
     }
     
