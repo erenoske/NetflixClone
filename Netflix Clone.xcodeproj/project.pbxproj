@@ -32,6 +32,7 @@
 		B0AAEF2F2B9AD40B006D81AC /* YoutubeSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AAEF2E2B9AD40B006D81AC /* YoutubeSearchResponse.swift */; };
 		B0AAEF332B9AD7FD006D81AC /* TitlePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AAEF322B9AD7FD006D81AC /* TitlePreviewViewController.swift */; };
 		B0AAEF352B9ADAF0006D81AC /* TitlePreiwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AAEF342B9ADAF0006D81AC /* TitlePreiwViewModel.swift */; };
+		B0C0BA902BBE03CC00DA65B8 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C0BA8F2BBE03CC00DA65B8 /* PopUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		B0AAEF2E2B9AD40B006D81AC /* YoutubeSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeSearchResponse.swift; sourceTree = "<group>"; };
 		B0AAEF322B9AD7FD006D81AC /* TitlePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePreviewViewController.swift; sourceTree = "<group>"; };
 		B0AAEF342B9ADAF0006D81AC /* TitlePreiwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePreiwViewModel.swift; sourceTree = "<group>"; };
+		B0C0BA8F2BBE03CC00DA65B8 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 			children = (
 				B0AAEF322B9AD7FD006D81AC /* TitlePreviewViewController.swift */,
 				B0AAEF2A2B9A90E8006D81AC /* SearchResultsViewController.swift */,
+				B0C0BA8F2BBE03CC00DA65B8 /* PopUpViewController.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				B0AAEF272B998E7E006D81AC /* TitleTableViewCell.swift in Sources */,
 				B0AAEF0A2B96D336006D81AC /* SearchViewController.swift in Sources */,
 				B0AAEF202B97FA4D006D81AC /* TitleCollectionViewCell.swift in Sources */,
+				B0C0BA902BBE03CC00DA65B8 /* PopUpViewController.swift in Sources */,
 				B05152812BB61C9A00C9F51D /* DataPersistenceManager.swift in Sources */,
 				B0AAEEF52B96D197006D81AC /* MainTabBarViewController.swift in Sources */,
 				B0AAEF142B976E1C006D81AC /* CollectionViewTableViewCell.swift in Sources */,

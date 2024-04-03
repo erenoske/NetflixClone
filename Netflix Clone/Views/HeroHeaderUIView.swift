@@ -9,6 +9,7 @@ import UIKit
 
 protocol HeroHeaderUIViewDelegate: AnyObject {
     func didSelectMovie(viewModel: TitlePreiwViewModel, titleViewModel: Title)
+    func listPopup()
 }
 
 class HeroHeaderUIView: UIView {
@@ -113,6 +114,7 @@ class HeroHeaderUIView: UIView {
         DataPersistenceManager.shared.downloadTitleWith(model: title!) { result in
             switch result {
             case .success():
+                self.delegate?.listPopup()
                 NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
             case .failure(let error):
                 print(error.localizedDescription)

@@ -154,6 +154,9 @@ class TitlePreviewViewController: UIViewController {
             DataPersistenceManager.shared.downloadTitleWith(model: safeTitleModel) { result in
                 switch result {
                 case .success():
+                    let popupVC = PopupViewController(popupText: "Successfully registered.")
+                    popupVC.modalPresentationStyle = .overCurrentContext
+                    self.present(popupVC, animated: true, completion: nil)
                     NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
                 case .failure(let error):
                     print(error.localizedDescription)

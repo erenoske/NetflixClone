@@ -249,6 +249,13 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
 
 extension HomeViewController: HeroHeaderUIViewDelegate {
     
+    func listPopup() {
+        let popupVC = PopupViewController(popupText: "Successfully registered.")
+        popupVC.modalPresentationStyle = .overCurrentContext
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    
     func didSelectMovie(viewModel: TitlePreiwViewModel, titleViewModel: Title) {
         DispatchQueue.main.async  { [weak self] in
             let vc = TitlePreviewViewController()
