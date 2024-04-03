@@ -35,7 +35,9 @@ class APICaller {
             }
             
             do {
-                let results = try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(TrendingTitleResponse.self, from: data)
                 completion(.success(results.results))
             } catch {
                 completion(.failure(APIError.failedTogetData))
@@ -56,7 +58,9 @@ class APICaller {
             }
                         
             do {
-                let results = try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(TrendingTitleResponse.self, from: data)
                 completion(.success(results.results))
             } catch {
                 completion(.failure(APIError.failedTogetData))
@@ -77,7 +81,9 @@ class APICaller {
             }
             
             do {
-                let results = try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(TrendingTitleResponse.self, from: data)
                 completion(.success(results.results))
             } catch {
                 completion(.failure(APIError.failedTogetData))
@@ -97,7 +103,9 @@ class APICaller {
             }
             
             do {
-                let results = try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(TrendingTitleResponse.self, from: data)
                 completion(.success(results.results))
             } catch {
                 completion(.failure(APIError.failedTogetData))
@@ -118,7 +126,9 @@ class APICaller {
             }
             
             do {
-                let results = try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(TrendingTitleResponse.self, from: data)
                 completion(.success(results.results))
             } catch {
                 completion(.failure(APIError.failedTogetData))
@@ -142,7 +152,9 @@ class APICaller {
             }
             
             do {
-                let results = try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(TrendingTitleResponse.self, from: data)
                 completion(.success(results.results))
             } catch {
                 completion(.failure(APIError.failedTogetData))
@@ -169,7 +181,9 @@ class APICaller {
             }
             
             do {
-                let results = try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(TrendingTitleResponse.self, from: data)
                 completion(.success(results.results))
             } catch {
                 completion(.failure(APIError.failedTogetData))
@@ -199,7 +213,9 @@ class APICaller {
                 // let results = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
                 // print(results)
                 // print(url)
-                let results = try JSONDecoder().decode(YoutubeSearchResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(YoutubeSearchResponse.self, from: data)
                 completion(.success(results.items[0]))
             } catch {
                 print(error.localizedDescription)

@@ -123,7 +123,7 @@ class HeroHeaderUIView: UIView {
     }
     
     @objc func playButtonTapped() {
-        guard let titleName = title?.original_title ?? title?.original_name else {
+        guard let titleName = title?.originalTitle ?? title?.originalName else {
             return
         }
         
@@ -189,7 +189,7 @@ class HeroHeaderUIView: UIView {
             return
         }
         
-        guard let titleName = title?.original_title ?? title?.original_name else {
+        guard let titleName = title?.originalTitle ?? title?.originalName else {
             return
         }
         

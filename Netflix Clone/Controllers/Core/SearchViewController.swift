@@ -92,7 +92,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate{
         }
         
         let title = titles[indexPath.row]
-        let model = TitleViewModel(titleName: title.original_name ?? title.original_title ?? "Unknown", posterURL: title.poster_path ?? "URL not found")
+        let model = TitleViewModel(titleName: title.originalName ?? title.originalTitle ?? "Unknown", posterURL: title.posterPath ?? "URL not found")
         cell.configure(with: model, and: title)
         
         return cell
@@ -107,7 +107,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate{
         
         let title = titles[indexPath.row]
         
-        guard let titleName = title.original_name ?? title.original_title else {
+        guard let titleName = title.originalName ?? title.originalTitle else {
             return
         }
         
@@ -126,7 +126,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate{
     }
 }
 
-extension SearchViewController: UISearchResultsUpdating, SearchResultsViewControllerDelagate  {
+extension SearchViewController: UISearchResultsUpdating  {
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
@@ -155,6 +155,9 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsViewContro
         }
     }
     
+}
+
+extension SearchViewController: SearchResultsViewControllerDelagate {
     
     func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel,titleViewModel titleViewmodel: Title) {
         navigationController?.navigationBar.transform = .identity
@@ -164,4 +167,5 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsViewContro
             self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
 }

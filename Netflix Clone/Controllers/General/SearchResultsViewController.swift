@@ -66,7 +66,7 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
         }
         
         let title = titles[indexPath.row]
-        cell.configure(with: title.poster_path ?? "URL not found")
+        cell.configure(with: title.posterPath ?? "URL not found")
         return cell
     }
     
@@ -75,7 +75,7 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
         collectionView.deselectItem(at: indexPath, animated: true)
         
         let title = titles[indexPath.row]
-        let titleName = title.original_title ?? ""
+        let titleName = title.originalTitle ?? ""
         
         APICaller.shared.getMovie(with: titleName) { [weak self] result in
             switch result {
@@ -83,7 +83,7 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
                 DispatchQueue.main.async {
                     self?.delegate?.searchResultsViewControllerDidTabItem(
                         TitlePreiwViewModel(
-                            title: title.original_title ?? "",
+                            title: title.originalTitle ?? "",
                             youtubeView: videoElement,
                             titleOverview: title.overview ?? ""
                         ), titleViewModel: title

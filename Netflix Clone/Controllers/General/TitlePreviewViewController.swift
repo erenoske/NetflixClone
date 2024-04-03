@@ -254,8 +254,8 @@ class TitlePreviewViewController: UIViewController {
     func configure(with model: TitlePreiwViewModel, and titleModel: Title) {
         titleLabel.text = model.title
         overviewLabel.text = model.titleOverview
-        voteAverage.text = String(format: "%.1f", titleModel.vote_average)
-        dateLabel.text = titleModel.release_date ?? titleModel.first_air_date
+        voteAverage.text = String(format: "%.1f", titleModel.voteAverage)
+        dateLabel.text = titleModel.releaseDate ?? titleModel.firstAirDate
         
         self.titleModel = titleModel
         

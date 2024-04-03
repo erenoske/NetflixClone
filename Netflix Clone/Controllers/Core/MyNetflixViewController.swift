@@ -117,8 +117,8 @@ extension MyNetflixViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let title = titles[indexPath.row]
-        let model = TitleViewModel(titleName: title.original_name ?? title.original_title ?? "Unknown", posterURL: title.poster_path ?? "URL not found")
-        let titleModel = Title(id: Int(title.id), media_type: title.media_type, original_name: title.original_name, original_title: title.media_type, poster_path: title.poster_path, first_air_date: title.first_air_date, overview: title.overview, vote_count: Int(title.vote_count), release_date: title.release_date, vote_average: title.vote_average)
+        let model = TitleViewModel(titleName: title.originalName ?? title.originalTitle ?? "Unknown", posterURL: title.posterPath ?? "URL not found")
+        let titleModel = Title(id: Int(title.id), mediaType: title.mediaType, originalName: title.originalName, originalTitle: title.originalTitle, posterPath: title.posterPath, firstAirDate: title.firstAirDate, overview: title.overview, voteCount: Int(title.voteCount), releaseDate: title.releaseDate, voteAverage: title.voteAverage)
         cell.configure(with: model, and: titleModel)
         
         return cell
@@ -151,7 +151,7 @@ extension MyNetflixViewController: UITableViewDelegate, UITableViewDataSource {
         
         let title = titles[indexPath.row]
         
-        guard let titleName = title.original_name ?? title.original_title else {
+        guard let titleName = title.originalName ?? title.originalTitle else {
             return
         }
         
@@ -160,7 +160,7 @@ extension MyNetflixViewController: UITableViewDelegate, UITableViewDataSource {
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
-                    let titleModel = Title(id: Int(title.id), media_type: title.media_type, original_name: title.original_name, original_title: title.media_type, poster_path: title.poster_path, first_air_date: title.first_air_date, overview: title.overview, vote_count: Int(title.vote_count), release_date: title.release_date, vote_average: title.vote_average)
+                    let titleModel = Title(id: Int(title.id), mediaType: title.mediaType, originalName: title.originalName, originalTitle: title.originalTitle, posterPath: title.posterPath, firstAirDate: title.firstAirDate, overview: title.overview, voteCount: Int(title.voteCount), releaseDate: title.releaseDate, voteAverage: title.voteAverage)
                     vc.configure(with: TitlePreiwViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), and: titleModel)
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }

@@ -74,8 +74,8 @@ class HomeViewController: UIViewController {
                 self?.randomTrendingMovie = selectedTitle
                 self?.headerView?.configure(
                     with: TitleViewModel(
-                        titleName: selectedTitle?.original_name ?? selectedTitle?.original_name ?? "",
-                        posterURL: selectedTitle?.poster_path ?? ""
+                        titleName: selectedTitle?.originalName ?? selectedTitle?.originalName ?? "",
+                        posterURL: selectedTitle?.posterPath ?? ""
                     ),
                     and: selectedTitle
                 )

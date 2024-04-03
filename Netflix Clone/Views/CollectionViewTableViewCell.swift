@@ -80,7 +80,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
             return UICollectionViewCell()
         }
         
-        guard let model = titles[indexPath.row].poster_path else {
+        guard let model = titles[indexPath.row].posterPath else {
             return UICollectionViewCell()
         }
         
@@ -93,7 +93,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
         collectionView.deselectItem(at: indexPath, animated: true)
         
         let title = titles[indexPath.row]
-        guard let titleName = title.original_title ?? title.original_name else {
+        guard let titleName = title.originalTitle ?? title.originalName else {
             return
         }
         

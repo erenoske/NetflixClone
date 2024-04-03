@@ -163,8 +163,8 @@ class TitleTableViewCell: UITableViewCell {
         }
         titlesPosterUIImageView.sd_setImage(with: url, completed: nil)
         titleLabel.text = model.titleName
-        starLabel.text = String(format: "%.1f", titleModel.vote_average)
-        dateLabel.text = titleModel.first_air_date ?? titleModel.release_date
+        starLabel.text = String(format: "%.1f", titleModel.voteAverage)
+        dateLabel.text = titleModel.firstAirDate ?? titleModel.releaseDate
     }
     
     required init?(coder: NSCoder) {
