@@ -1,5 +1,3 @@
-# Netflix Clone
-
 ## Tools and Technologies Used
 
 - Swift 5
