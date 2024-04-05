@@ -39,6 +39,7 @@ class DataPersistenceManager {
         item.voteCount = Int64(model.voteCount)
         item.voteAverage = model.voteAverage
         item.firstAirDate = model.firstAirDate
+        item.backdropPath = model.backdropPath
         
         do {
             try context.save()

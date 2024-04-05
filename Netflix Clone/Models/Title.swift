@@ -17,6 +17,7 @@ struct Title: Codable {
     let originalName: String?
     let originalTitle: String?
     let posterPath: String?
+    let backdropPath: String?
     let firstAirDate: String?
     let overview: String?
     let voteCount: Int

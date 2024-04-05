@@ -63,7 +63,8 @@ class PopupViewController: UIViewController {
         
         let labelConstraints = [
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            label.widthAnchor.constraint(equalToConstant: 260)
         ]
         
         NSLayoutConstraint.activate(popupViewConstraints)

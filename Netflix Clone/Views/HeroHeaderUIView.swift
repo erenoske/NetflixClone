@@ -32,7 +32,7 @@ class HeroHeaderUIView: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.spacing = 20
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -48,7 +48,7 @@ class HeroHeaderUIView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .white
         button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 3
         button.clipsToBounds = true
         return button
     }()
@@ -62,7 +62,7 @@ class HeroHeaderUIView: UIView {
         configuration.imagePadding = 10
         let button = UIButton(configuration: configuration)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 3
         button.backgroundColor = .white
         button.tintColor = .black
         button.clipsToBounds = true
@@ -167,12 +167,12 @@ class HeroHeaderUIView: UIView {
         ]
         
         let playButtonConstraints = [
-            playButton.widthAnchor.constraint(equalToConstant: 120),
+            playButton.widthAnchor.constraint(equalToConstant: 140),
             playButton.heightAnchor.constraint(equalToConstant: 35)
         ]
         
         let downloadButtonConstraints = [
-            downloadButton.widthAnchor.constraint(equalToConstant: 120),
+            downloadButton.widthAnchor.constraint(equalToConstant: 140),
             downloadButton.heightAnchor.constraint(equalToConstant: 35)
         ]
         

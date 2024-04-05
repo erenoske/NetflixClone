@@ -71,7 +71,7 @@ class TitlePreviewViewController: UIViewController {
     private let dateImage: UIImageView = {
        
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "ticket")
+        imageView.image = UIImage(systemName: "calendar")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = .label
         return imageView
@@ -235,9 +235,10 @@ class TitlePreviewViewController: UIViewController {
         let downloadButtonConstraints = [
             downloadButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 10),
             downloadButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            downloadButton.widthAnchor.constraint(equalToConstant: 140),
             downloadButton.heightAnchor.constraint(equalToConstant: 40),
-            downloadButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            downloadButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            downloadButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ]
 
         // Activate constraints
