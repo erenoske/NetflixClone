@@ -95,11 +95,12 @@ extension NewAndPopularViewController: UITableViewDelegate, UITableViewDataSourc
         
         let title = titles[indexPath.row]
         cell.configure(with: TitleViewModel(titleName: (title.originalTitle ?? title.originalName) ?? "Unknown Name", posterURL: title.backdropPath ?? "Url not found"), and: title)
+        cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 375
+        return 420
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -124,4 +125,14 @@ extension NewAndPopularViewController: UITableViewDelegate, UITableViewDataSourc
             }
         }
     }
+}
+
+extension NewAndPopularViewController: NewAndPopularTableViewCellDelegate {
+    
+    func listPopup() {
+        let popupVC = PopupViewController(popupText: "Successfully registered.")
+        popupVC.modalPresentationStyle = .overCurrentContext
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
 }

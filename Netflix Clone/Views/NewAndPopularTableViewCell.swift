@@ -7,9 +7,17 @@
 
 import UIKit
 
+protocol NewAndPopularTableViewCellDelegate: AnyObject {
+    func listPopup()
+}
+
 class NewAndPopularTableViewCell: UITableViewCell {
 
     static let identifier = "NewAndPopularTableViewCell"
+    
+    private var titleModel: Title?
+    
+    weak var delegate: NewAndPopularTableViewCellDelegate?
     
     private let stackView: UIStackView = {
        
@@ -109,6 +117,22 @@ class NewAndPopularTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let downloadButton: UIButton = {
+        
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = "List"
+        configuration.image = UIImage(systemName: "plus")
+        configuration.baseBackgroundColor = .black
+        configuration.imagePadding = 10
+        let button = UIButton(configuration: configuration)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .white
+        button.backgroundColor = .systemGray4
+        button.layer.cornerRadius = 5
+        button.clipsToBounds = true
+        return button
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -125,10 +149,27 @@ class NewAndPopularTableViewCell: UITableViewCell {
         stackView.addArrangedSubview(sectionStackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(overviewLabel)
+        stackView.addArrangedSubview(downloadButton)
         
         contentView.addSubview(stackView)
         
+        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
+        
         applyConstraints()
+    }
+    
+    @objc func downloadButtonTapped() {
+        
+        DataPersistenceManager.shared.downloadTitleWith(model: titleModel!) { result in
+            switch result {
+            case .success():
+                self.delegate?.listPopup()
+                NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
     }
     
     required init?(coder: NSCoder) {
@@ -167,8 +208,18 @@ class NewAndPopularTableViewCell: UITableViewCell {
         let overviewLabelConstraints = [
             overviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ]
+        
+        // Constraints for downloadButton
+        let downloadButtonConstraints = [
+            downloadButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 10),
+            downloadButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            downloadButton.heightAnchor.constraint(equalToConstant: 35),
+            downloadButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            downloadButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+        ]
+
         
         NSLayoutConstraint.activate(stackViewConstraints)
         NSLayoutConstraint.activate(titlesPosterUIImageViewConstraints)
@@ -176,6 +227,7 @@ class NewAndPopularTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(overviewLabelConstraints)
         NSLayoutConstraint.activate(starImageConstraints)
         NSLayoutConstraint.activate(dateImageConstraints)
+        NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
     public func configure(with model: TitleViewModel, and titleModel: Title) {
@@ -192,6 +244,7 @@ class NewAndPopularTableViewCell: UITableViewCell {
             return
         }
         
+        self.titleModel = titleModel
         titleLabel.text = titleName
         overviewLabel.text = titleModel.overview
         voteAverage.text = String(format: "%.1f", titleModel.voteAverage)

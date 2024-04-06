@@ -22,7 +22,9 @@ class HeroHeaderUIView: UIView {
        
         let label = UILabel()
         label.textColor = .label
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .systemFont(ofSize: 21, weight: .bold)
+        label.numberOfLines = 2
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -158,7 +160,8 @@ class HeroHeaderUIView: UIView {
         
         let titleLabelConstraints = [
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -80)
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -80),
+            titleLabel.widthAnchor.constraint(equalToConstant: 310)
         ]
 
         let stackViewConstraints = [
