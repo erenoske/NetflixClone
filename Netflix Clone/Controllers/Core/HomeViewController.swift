@@ -79,6 +79,7 @@ class HomeViewController: UIViewController {
                     ),
                     and: selectedTitle
                 )
+                print(selectedTitle!.id)
             case .failure(let error):
                 print(error.localizedDescription)
             }

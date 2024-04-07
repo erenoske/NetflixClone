@@ -11,7 +11,7 @@ import SystemConfiguration
 struct Constants {
     static let API_KEY = "2faa3eaa93dc9edc706c637e27a3902d"
     static let baseURL = "https://api.themoviedb.org/"
-    static let YoutubeAPI_KEY = "AIzaSyCMmSfyrVUANJZEcHYm-UT1A8m9HCbSenY"
+    static let YoutubeAPI_KEY = "AIzaSyBgF5z4dQ1RwosOm9G9MkQbot4Lp6_VqL8"
     static let YoutubeBaseUrl = "https://youtube.googleapis.com/youtube/v3/search?"
 }
 
@@ -217,6 +217,30 @@ class APICaller {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let results = try decoder.decode(YoutubeSearchResponse.self, from: data)
                 completion(.success(results.items[0]))
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func getMovieCasts(with id: Int, completion: @escaping (Result<[Cast], Error>) -> Void) {
+        
+        guard let url = URL(string: "\(Constants.baseURL)/3/movie/\(id)/credits?api_key=\(Constants.API_KEY)") else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let results = try decoder.decode(CastResponse.self, from: data)
+                completion(.success(results.cast))
             } catch {
                 print(error.localizedDescription)
             }

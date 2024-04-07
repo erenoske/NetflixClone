@@ -11,10 +11,13 @@ import WebKit
 class TitlePreviewViewController: UIViewController {
     
     private var titleModel: Title?
+    
+    private var casts: [Cast] = [Cast]()
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -116,6 +119,35 @@ class TitlePreviewViewController: UIViewController {
         return webView
     }()
     
+    private let castCollectionView: UICollectionView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 140, height: 220)
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(CastCollectionViewCell.self, forCellWithReuseIdentifier: CastCollectionViewCell.identifier)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    private let castLabel: UILabel = {
+       
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .label
+        return label
+    }()
+    
+    private let labelScrollView: UIScrollView = {
+       
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsHorizontalScrollIndicator = false
+        return scrollView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -139,13 +171,79 @@ class TitlePreviewViewController: UIViewController {
         contentView.addSubview(titleLabel)
         contentView.addSubview(starStackView)
         contentView.addSubview(dateStackView)
+        contentView.addSubview(labelScrollView)
         contentView.addSubview(overviewLabel)
 
         contentView.addSubview(downloadButton)
         
+        contentView.addSubview(castLabel)
+        contentView.addSubview(castCollectionView)
+        
+        castCollectionView.delegate = self
+        castCollectionView.dataSource = self
+        
         configureConstraints()
         
         downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
+        
+        APICaller.shared.getMovieCasts(with: titleModel!.id) { result in
+            switch result {
+            case .success(let titles):
+                self.casts = titles
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            if self.casts.count > 0 {
+                self.castLabel.text = "Cast"
+            }
+        }
+        
+        // MARK: - Genres Label
+        
+        var labelArray = [UILabel]()
+        
+        var previousLabel: UILabel?
+        
+        DispatchQueue.main.async {
+            var titles = GenreConverter.convertToGenreNames(genreIds: self.titleModel!.genreIds)
+            print(titles)
+             for title in titles {
+                 let label = UILabel()
+                 label.text = title
+                 label.textColor = .label
+                 label.textAlignment = .center
+                 label.font = UIFont.systemFont(ofSize: 16)
+                 label.translatesAutoresizingMaskIntoConstraints = false
+                 label.layer.borderWidth = 1.0
+                 label.layer.borderColor = UIColor.label.cgColor
+                 label.layer.cornerRadius = 3
+                 self.labelScrollView.addSubview(label)
+                 labelArray.append(label)
+                 
+                 NSLayoutConstraint.activate([
+                    label.topAnchor.constraint(equalTo: self.labelScrollView.topAnchor),
+                    label.bottomAnchor.constraint(equalTo: self.labelScrollView.bottomAnchor),
+                    label.heightAnchor.constraint(equalTo: self.labelScrollView.heightAnchor),
+                    label.widthAnchor.constraint(equalTo: self.labelScrollView.widthAnchor, multiplier: 0.5)
+                 ])
+                 
+                 if let previousLabel = previousLabel {
+                     label.leadingAnchor.constraint(equalTo: previousLabel.trailingAnchor, constant: 8).isActive = true
+                 } else {
+                     label.leadingAnchor.constraint(equalTo: self.labelScrollView.leadingAnchor).isActive = true
+                 }
+                 
+                 previousLabel = label
+             }
+             
+             if let lastLabel = labelArray.last {
+                 lastLabel.trailingAnchor.constraint(equalTo: self.labelScrollView.trailingAnchor).isActive = true
+             }
+        }
+
     }
     
     @objc private func downloadButtonTapped() {
@@ -216,10 +314,17 @@ class TitlePreviewViewController: UIViewController {
             dateStackView.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 10),
             dateStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ]
+        
+        let labelScrollViewConstraints = [
+            labelScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            labelScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            labelScrollView.topAnchor.constraint(equalTo: starStackView.bottomAnchor, constant: 10),
+            labelScrollView.heightAnchor.constraint(equalToConstant: 50)
+        ]
 
         // Constraints for titleLabel
         let titleLabelConstraints = [
-            titleLabel.topAnchor.constraint(equalTo: voteAverage.bottomAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: labelScrollView.bottomAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ]
@@ -236,9 +341,22 @@ class TitlePreviewViewController: UIViewController {
             downloadButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 10),
             downloadButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             downloadButton.heightAnchor.constraint(equalToConstant: 40),
-            downloadButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             downloadButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+        ]
+        
+        let castLabelConstraints = [
+            castLabel.topAnchor.constraint(equalTo: downloadButton.bottomAnchor, constant: 10),
+            castLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            castLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+        ]
+        
+        let castCollectionViewConstraints = [
+            castCollectionView.topAnchor.constraint(equalTo: castLabel.bottomAnchor, constant: 10),
+            castCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            castCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            castCollectionView.heightAnchor.constraint(equalToConstant: 250),
+            castCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ]
 
         // Activate constraints
@@ -248,8 +366,11 @@ class TitlePreviewViewController: UIViewController {
         NSLayoutConstraint.activate(titleLabelConstraints)
         NSLayoutConstraint.activate(starStackViewConstraints)
         NSLayoutConstraint.activate(dateStackViewConstraints)
+        NSLayoutConstraint.activate(labelScrollViewConstraints)
         NSLayoutConstraint.activate(overviewLabelConstraints)
         NSLayoutConstraint.activate(downloadButtonConstraints)
+        NSLayoutConstraint.activate(castLabelConstraints)
+        NSLayoutConstraint.activate(castCollectionViewConstraints)
     }
     
     func configure(with model: TitlePreiwViewModel, and titleModel: Title) {
@@ -268,3 +389,30 @@ class TitlePreviewViewController: UIViewController {
     }
 
 }
+
+extension TitlePreviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+         if casts.count < 12 {
+             return casts.count
+         } else {
+             return 12
+         }
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
+         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCollectionViewCell.identifier, for: indexPath) as? CastCollectionViewCell else {
+             return UICollectionViewCell()
+         }
+         
+         let cast = casts[indexPath.row]
+         
+         cell.configure(with: cast.profilePath, title: cast.name, character: cast.character)
+         return cell
+    }
+    
+}
+
