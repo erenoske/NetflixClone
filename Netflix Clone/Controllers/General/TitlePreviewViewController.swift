@@ -208,40 +208,47 @@ class TitlePreviewViewController: UIViewController {
         var previousLabel: UILabel?
         
         DispatchQueue.main.async {
-            var titles = GenreConverter.convertToGenreNames(genreIds: self.titleModel!.genreIds)
-            print(titles)
-             for title in titles {
-                 let label = UILabel()
-                 label.text = title
-                 label.textColor = .label
-                 label.textAlignment = .center
-                 label.font = UIFont.systemFont(ofSize: 16)
-                 label.translatesAutoresizingMaskIntoConstraints = false
-                 label.layer.borderWidth = 1.0
-                 label.layer.borderColor = UIColor.label.cgColor
-                 label.layer.cornerRadius = 3
-                 self.labelScrollView.addSubview(label)
-                 labelArray.append(label)
-                 
-                 NSLayoutConstraint.activate([
+            let titles = GenreConverter.convertToGenreNames(genreIds: self.titleModel!.genreIds)
+
+            for title in titles {
+                let label = UILabel()
+                label.text = title
+                label.textColor = .label
+                label.textAlignment = .center
+                label.font = UIFont.systemFont(ofSize: 16)
+                label.translatesAutoresizingMaskIntoConstraints = false
+                label.layer.borderWidth = 1.0
+                label.layer.borderColor = UIColor.label.cgColor
+                label.layer.cornerRadius = 3
+                self.labelScrollView.addSubview(label)
+                labelArray.append(label)
+                
+                let tempLabel = UILabel()
+                tempLabel.text = title
+                tempLabel.font = UIFont.systemFont(ofSize: 16)
+                let size = tempLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: label.frame.size.height))
+                let labelWidth = size.width + 16
+                
+                NSLayoutConstraint.activate([
                     label.topAnchor.constraint(equalTo: self.labelScrollView.topAnchor),
                     label.bottomAnchor.constraint(equalTo: self.labelScrollView.bottomAnchor),
                     label.heightAnchor.constraint(equalTo: self.labelScrollView.heightAnchor),
-                    label.widthAnchor.constraint(equalTo: self.labelScrollView.widthAnchor, multiplier: 0.5)
-                 ])
-                 
-                 if let previousLabel = previousLabel {
-                     label.leadingAnchor.constraint(equalTo: previousLabel.trailingAnchor, constant: 8).isActive = true
-                 } else {
-                     label.leadingAnchor.constraint(equalTo: self.labelScrollView.leadingAnchor).isActive = true
-                 }
-                 
-                 previousLabel = label
-             }
-             
-             if let lastLabel = labelArray.last {
-                 lastLabel.trailingAnchor.constraint(equalTo: self.labelScrollView.trailingAnchor).isActive = true
-             }
+                    label.widthAnchor.constraint(equalToConstant: labelWidth)
+                ])
+                
+                if let previousLabel = previousLabel {
+                    label.leadingAnchor.constraint(equalTo: previousLabel.trailingAnchor, constant: 8).isActive = true
+                } else {
+                    label.leadingAnchor.constraint(equalTo: self.labelScrollView.leadingAnchor).isActive = true
+                }
+                
+                previousLabel = label
+            }
+
+            if let lastLabel = labelArray.last {
+                lastLabel.trailingAnchor.constraint(equalTo: self.labelScrollView.trailingAnchor).isActive = true
+            }
+
         }
 
     }
@@ -319,7 +326,7 @@ class TitlePreviewViewController: UIViewController {
             labelScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             labelScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             labelScrollView.topAnchor.constraint(equalTo: starStackView.bottomAnchor, constant: 10),
-            labelScrollView.heightAnchor.constraint(equalToConstant: 50)
+            labelScrollView.heightAnchor.constraint(equalToConstant: 30)
         ]
 
         // Constraints for titleLabel
