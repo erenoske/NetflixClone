@@ -255,18 +255,20 @@ class TitlePreviewViewController: UIViewController {
     
     @objc private func downloadButtonTapped() {
         
-        if let safeTitleModel = titleModel {
-            DataPersistenceManager.shared.downloadTitleWith(model: safeTitleModel) { result in
+        if self.downloadButton.configuration?.image == UIImage(systemName: "plus") {
+            DataPersistenceManager.shared.downloadTitleWith(model: titleModel!) { result in
                 switch result {
                 case .success():
-                    let popupVC = PopupViewController(popupText: "Successfully registered.")
-                    popupVC.modalPresentationStyle = .overCurrentContext
-                    self.present(popupVC, animated: true, completion: nil)
+                    self.downloadButton.configuration?.image = UIImage(systemName: "checkmark")
                     NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
+        } else {
+            let popupVC = PopupViewController(popupText: "Allready exists.")
+            popupVC.modalPresentationStyle = .overCurrentContext
+            self.present(popupVC, animated: true, completion: nil)
         }
 
     }

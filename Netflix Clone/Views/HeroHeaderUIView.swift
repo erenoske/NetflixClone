@@ -9,7 +9,7 @@ import UIKit
 
 protocol HeroHeaderUIViewDelegate: AnyObject {
     func didSelectMovie(viewModel: TitlePreiwViewModel, titleViewModel: Title)
-    func listPopup()
+    func listPopup(title: String)
 }
 
 class HeroHeaderUIView: UIView {
@@ -17,6 +17,8 @@ class HeroHeaderUIView: UIView {
     weak var delegate: HeroHeaderUIViewDelegate?
     
     private var title: Title?
+    
+    private var imageColor: UIColor?
     
     private let titleLabel: UILabel = {
        
@@ -39,7 +41,7 @@ class HeroHeaderUIView: UIView {
         return stackView
     }()
     
-    private let downloadButton: UIButton = {
+    public let downloadButton: UIButton = {
        
         var configuration = UIButton.Configuration.plain()
         configuration.title = "List"
@@ -49,7 +51,8 @@ class HeroHeaderUIView: UIView {
         let button = UIButton(configuration: configuration)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .white
-        button.backgroundColor = .systemGray4
+        let backgroundColor = UIColor.systemGray5.withAlphaComponent(0.7) 
+        button.backgroundColor = backgroundColor
         button.layer.cornerRadius = 3
         button.clipsToBounds = true
         return button
@@ -84,44 +87,81 @@ class HeroHeaderUIView: UIView {
         return imageView
     }()
     
-    private func addGradient() {
+    private let labelScrollView: UIScrollView = {
+       
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsHorizontalScrollIndicator = false
+        return scrollView
+    }()
+    
+    private let gradientLayer: CAGradientLayer = {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
+        
+        gradientLayer.cornerRadius = 5
+        
+        return gradientLayer
+    }()
+    
+    private func addGradient() {
+        let gradientLayerSystem = CAGradientLayer()
+        gradientLayerSystem.colors = [
+            UIColor.systemBackground.cgColor,
+            UIColor.clear.cgColor,
+            UIColor.clear.cgColor,
             UIColor.clear.cgColor,
             UIColor.systemBackground.cgColor
         ]
-        gradientLayer.frame = bounds
-        layer.addSublayer(gradientLayer)
+        gradientLayerSystem.locations = [0, 0.3, 0.7, 0.8, 1]
+        gradientLayerSystem.frame = bounds
+
+        layer.addSublayer(gradientLayerSystem)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        let layerWidth: CGFloat = 338
+        let layerHeight: CGFloat = 200
+        
+        gradientLayer.frame = CGRect(x: (bounds.width - layerWidth) / 2,
+                                     y: 269,
+                                        width: layerWidth,
+                                        height: layerHeight)
+        
         stackView.addArrangedSubview(playButton)
         stackView.addArrangedSubview(downloadButton)
-        
-        addSubview(heroImageView)
         addGradient()
+        addSubview(heroImageView)
+        layer.insertSublayer(gradientLayer, below: self.layer)
         addSubview(titleLabel)
+        addSubview(labelScrollView)
         addSubview(stackView)
-        
+
         playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
         downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
         
         applyConstraints()
-        
+  
     }
     
     @objc func downloadButtonTapped() {
-        DataPersistenceManager.shared.downloadTitleWith(model: title!) { result in
-            switch result {
-            case .success():
-                self.delegate?.listPopup()
-                NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
-            case .failure(let error):
-                print(error.localizedDescription)
+        
+        if self.downloadButton.configuration?.image == UIImage(systemName: "plus") {
+            DataPersistenceManager.shared.downloadTitleWith(model: title!) { result in
+                switch result {
+                case .success():
+                    self.downloadButton.configuration?.image = UIImage(systemName: "checkmark")
+                    NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
+        } else {
+            self.delegate?.listPopup(title: "Allready exist.")
         }
+        
+
     }
     
     @objc func playButtonTapped() {
@@ -154,28 +194,33 @@ class HeroHeaderUIView: UIView {
         let heroImageViewConstraints = [
             heroImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             heroImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            heroImageView.widthAnchor.constraint(equalToConstant: 320),
-            heroImageView.heightAnchor.constraint(equalToConstant: 440)
+            heroImageView.widthAnchor.constraint(equalToConstant: 340),
+            heroImageView.heightAnchor.constraint(equalToConstant: 460)
         ]
         
         let titleLabelConstraints = [
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -80),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -85),
             titleLabel.widthAnchor.constraint(equalToConstant: 310)
         ]
+        
+        let labelScrollViewConstraints = [
+            labelScrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            labelScrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -55),
+            labelScrollView.heightAnchor.constraint(equalToConstant: 30)        ]
 
         let stackViewConstraints = [
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -13),
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ]
         
         let playButtonConstraints = [
-            playButton.widthAnchor.constraint(equalToConstant: 140),
+            playButton.widthAnchor.constraint(equalToConstant: 150),
             playButton.heightAnchor.constraint(equalToConstant: 35)
         ]
         
         let downloadButtonConstraints = [
-            downloadButton.widthAnchor.constraint(equalToConstant: 140),
+            downloadButton.widthAnchor.constraint(equalToConstant: 150),
             downloadButton.heightAnchor.constraint(equalToConstant: 35)
         ]
         
@@ -184,6 +229,7 @@ class HeroHeaderUIView: UIView {
         NSLayoutConstraint.activate(titleLabelConstraints)
         NSLayoutConstraint.activate(playButtonConstraints)
         NSLayoutConstraint.activate(downloadButtonConstraints)
+        NSLayoutConstraint.activate(labelScrollViewConstraints)
     }
     
     public func configure(with model: TitleViewModel, and title: Title?) {
@@ -202,12 +248,85 @@ class HeroHeaderUIView: UIView {
         
         self.title = safeTitle
         
-        heroImageView.sd_setImage(with: url, completed: nil)
+        heroImageView.sd_setImage(with: url) { (image, error, cacheType, url) in
+            if let image = image {
+                if let averageColor = image.averageColor() {
+                    print("Görüntünün genel rengi: \(averageColor)")
+                    self.backgroundColor = averageColor
+                    self.gradientLayer.colors = [
+                        UIColor.clear.cgColor,
+                        averageColor.cgColor
+                    ]
+                } else {
+                    print("Görüntüden genel renk alınamadı.")
+                }
+            } else {
+                print("Resim yüklenirken bir hata oluştu: \(error?.localizedDescription ?? "Bilinmeyen bir hata")")
+            }
+        }
         
         DispatchQueue.main.async {
             self.titleLabel.text = titleName
         }
+        
+        
+        // MARK: - Genres Label
+        genresLabel(title: safeTitle)
+
     }
+    
+    private var labelArray = [UILabel]()
+    private var tempLabelArray = [UILabel]()
+
+    private func genresLabel(title: Title) {
+        DispatchQueue.main.async {
+            self.labelArray.forEach { $0.removeFromSuperview() }
+            self.labelArray.removeAll()
+            self.tempLabelArray.removeAll()
+
+            let genres = GenreConverter.convertToGenreNames(genreIds: title.genreIds)
+
+            for genre in genres {
+                let label = UILabel()
+                label.text = genre
+                label.textColor = .label
+                label.textAlignment = .center
+                label.font = UIFont.systemFont(ofSize: 15)
+                label.translatesAutoresizingMaskIntoConstraints = false
+                self.addSubview(label)
+                self.labelArray.append(label)
+                
+                let tempLabel = UILabel()
+                tempLabel.text = genre
+                tempLabel.font = UIFont.systemFont(ofSize: 15)
+                self.tempLabelArray.append(tempLabel)
+                
+                let size = tempLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: label.frame.size.height))
+                let labelWidth = size.width
+                
+                NSLayoutConstraint.activate([
+                    label.topAnchor.constraint(equalTo: self.labelScrollView.topAnchor),
+                    label.bottomAnchor.constraint(equalTo: self.labelScrollView.bottomAnchor),
+                    label.heightAnchor.constraint(equalTo: self.labelScrollView.heightAnchor),
+                    label.widthAnchor.constraint(equalToConstant: labelWidth)
+                ])
+                
+                if let previousLabel = self.labelArray.last(where: { $0 != label }) {
+                    label.leadingAnchor.constraint(equalTo: previousLabel.trailingAnchor, constant: 8).isActive = true
+                } else {
+                    label.leadingAnchor.constraint(equalTo: self.labelScrollView.leadingAnchor).isActive = true
+                }
+            }
+
+            if let lastLabel = self.labelArray.last {
+                lastLabel.trailingAnchor.constraint(equalTo: self.labelScrollView.trailingAnchor).isActive = true
+            }
+        }
+    }
+
+
+
+
     
     override func layoutSubviews() {
         super.layoutSubviews()

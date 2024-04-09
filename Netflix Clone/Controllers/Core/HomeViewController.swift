@@ -19,6 +19,7 @@ class HomeViewController: UIViewController {
     
     private var randomTrendingMovie: Title?
     private var headerView: HeroHeaderUIView?
+    private var bgColor: UIColor?
     
     let sectionTitles: [String] = ["Trending Movies", "Trending Tv", "Populer", "Up Coming Movies", "Top rated"]
     
@@ -46,7 +47,7 @@ class HomeViewController: UIViewController {
         
         configureNavbar()
         
-        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 470))
         headerView?.delegate = self
         homeFeedTable.tableHeaderView = headerView
         configureHeroHeaderView()
@@ -88,6 +89,7 @@ class HomeViewController: UIViewController {
         
         group.notify(queue: .main) {
             self.homeFeedTable.refreshControl?.endRefreshing()
+            self.headerView?.downloadButton.configuration?.image = UIImage(systemName: "plus")
         }
     }
     
@@ -203,7 +205,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 160
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
@@ -250,8 +252,8 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
 
 extension HomeViewController: HeroHeaderUIViewDelegate {
     
-    func listPopup() {
-        let popupVC = PopupViewController(popupText: "Successfully registered.")
+    func listPopup(title: String) {
+        let popupVC = PopupViewController(popupText: title)
         popupVC.modalPresentationStyle = .overCurrentContext
         self.present(popupVC, animated: true, completion: nil)
     }
@@ -266,4 +268,3 @@ extension HomeViewController: HeroHeaderUIViewDelegate {
     }
 
 }
-

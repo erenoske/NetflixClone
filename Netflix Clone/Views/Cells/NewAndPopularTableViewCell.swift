@@ -160,15 +160,17 @@ class NewAndPopularTableViewCell: UITableViewCell {
     
     @objc func downloadButtonTapped() {
         
-        DataPersistenceManager.shared.downloadTitleWith(model: titleModel!) { result in
-            switch result {
-            case .success():
-                self.delegate?.listPopup()
-                NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
-            case .failure(let error):
-                print(error.localizedDescription)
+        if self.downloadButton.configuration?.image == UIImage(systemName: "plus") {
+            DataPersistenceManager.shared.downloadTitleWith(model: titleModel!) { result in
+                switch result {
+                case .success():
+                    self.downloadButton.configuration?.image = UIImage(systemName: "checkmark")
+                    NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
-        }
+        } 
         
     }
     

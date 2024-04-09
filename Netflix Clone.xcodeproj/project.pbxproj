@@ -159,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				B0A9B3292BC24D8800E73250 /* Cells */,
-				B0AAEEFB2B96D198006D81AC /* LaunchScreen.storyboard */,
 				B0AAEF152B97BDBE006D81AC /* HeroHeaderUIView.swift */,
 			);
 			path = Views;
@@ -228,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				B0AAEEF92B96D198006D81AC /* Assets.xcassets */,
+				B0AAEEFB2B96D198006D81AC /* LaunchScreen.storyboard */,
 				B0AAEEFE2B96D198006D81AC /* Info.plist */,
 			);
 			name = Files;
