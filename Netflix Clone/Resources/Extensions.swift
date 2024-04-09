@@ -9,8 +9,16 @@ import Foundation
 import UIKit
 
 extension String {
-    func capitalizeFirstLetter() -> String {
-        return self.prefix(1).uppercased() + self.lowercased().dropFirst()
+    func capitalizeFirstLetterOfEachWord() -> String {
+        let words = self.components(separatedBy: " ")
+        var capitalizedWords = [String]()
+        
+        for word in words {
+            let capitalizedWord = word.prefix(1).uppercased() + word.lowercased().dropFirst()
+            capitalizedWords.append(capitalizedWord)
+        }
+        
+        return capitalizedWords.joined(separator: " ")
     }
 }
 

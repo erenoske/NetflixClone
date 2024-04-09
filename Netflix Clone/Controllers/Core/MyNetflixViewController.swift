@@ -27,24 +27,6 @@ class MyNetflixViewController: UIViewController {
         listTable.delegate = self
         listTable.dataSource = self
         
-        let headerView = UIView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let headerLabel = UILabel()
-        headerLabel.text = "My List"
-        headerLabel.textColor = .label
-        headerLabel.font = .systemFont(ofSize: 18, weight: .semibold)
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        headerView.addSubview(headerLabel)
-        NSLayoutConstraint.activate([
-            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 30),
-            headerLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
-            headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10),
-            headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
-        ])
-        
-        listTable.tableHeaderView = headerView
         view.addSubview(listTable)
         
         configureNavbar()
@@ -56,15 +38,13 @@ class MyNetflixViewController: UIViewController {
     }
     
     private func configureNavbar() {        
-        var image = UIImage(named: "netflixLogo")
-        image = image?.withRenderingMode(.alwaysOriginal)
-        navigationItem.leftBarButtonItem =
-        UIBarButtonItem(
-            image: image,
-            style: .done,
-            target: self,
-            action: nil
-        )
+        let titleLabel = UILabel()
+        titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
+        titleLabel.textColor = .label
+        titleLabel.text = "My Netflix"
+        let labelBarButton = UIBarButtonItem(customView: titleLabel)
+        navigationItem.leftBarButtonItem = labelBarButton
+
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(

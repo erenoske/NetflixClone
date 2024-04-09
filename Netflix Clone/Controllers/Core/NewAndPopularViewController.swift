@@ -35,15 +35,12 @@ class NewAndPopularViewController: UIViewController {
     }
     
     private func configureNavbar() {
-        var image = UIImage(named: "netflixLogo")
-        image = image?.withRenderingMode(.alwaysOriginal)
-        navigationItem.leftBarButtonItem =
-        UIBarButtonItem(
-            image: image,
-            style: .done,
-            target: self,
-            action: nil
-        )
+        let titleLabel = UILabel()
+        titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
+        titleLabel.textColor = .label
+        titleLabel.text = "New And Popular"
+        let labelBarButton = UIBarButtonItem(customView: titleLabel)
+        navigationItem.leftBarButtonItem = labelBarButton
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(

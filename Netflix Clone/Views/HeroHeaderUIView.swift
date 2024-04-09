@@ -48,11 +48,11 @@ class HeroHeaderUIView: UIView {
         configuration.image = UIImage(systemName: "plus")
         configuration.baseBackgroundColor = .black
         configuration.imagePadding = 10
+        
         let button = UIButton(configuration: configuration)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .white
-        let backgroundColor = UIColor.systemGray5.withAlphaComponent(0.7) 
-        button.backgroundColor = backgroundColor
+        button.backgroundColor = UIColor.white.withAlphaComponent(0.2)
         button.layer.cornerRadius = 3
         button.clipsToBounds = true
         return button
@@ -65,6 +65,7 @@ class HeroHeaderUIView: UIView {
         configuration.image = UIImage(systemName: "play.fill")
         configuration.baseBackgroundColor = .black
         configuration.imagePadding = 10
+        
         let button = UIButton(configuration: configuration)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 3
@@ -251,17 +252,13 @@ class HeroHeaderUIView: UIView {
         heroImageView.sd_setImage(with: url) { (image, error, cacheType, url) in
             if let image = image {
                 if let averageColor = image.averageColor() {
-                    print("Görüntünün genel rengi: \(averageColor)")
+                    print("General color: \(averageColor)")
                     self.backgroundColor = averageColor
                     self.gradientLayer.colors = [
                         UIColor.clear.cgColor,
                         averageColor.cgColor
                     ]
-                } else {
-                    print("Görüntüden genel renk alınamadı.")
                 }
-            } else {
-                print("Resim yüklenirken bir hata oluştu: \(error?.localizedDescription ?? "Bilinmeyen bir hata")")
             }
         }
         
