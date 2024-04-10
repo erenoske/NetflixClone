@@ -2,6 +2,7 @@
 
 - Swift 5
 - UIKit
+- WebKit
 - MVVM (Model-View-ViewModel) architecture
 - The Movie Database (TMDb) API
 - Youtube API
