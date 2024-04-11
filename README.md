@@ -10,10 +10,11 @@
 - CoreData
 
 
-<img width="250" alt="Ekran Resmi" src="https://github.com/erenoske/NetflixClone/assets/108978390/d2ff1c78-d821-41ce-b4cc-4c07a51dd947">
-<img width="250" alt="Ekran Resmi 2024-03-21 04 12 35" src="https://github.com/erenoske/NetflixClone/assets/108978390/0743e422-fc24-4d9a-bfe6-f5d977fbd4ed">
-<img width="250" alt="Ekran Resmi 2024-04-03 06 35 57" src="https://github.com/erenoske/NetflixClone/assets/108978390/1384ce33-e671-4c92-a046-def5799f7c95">
-<img width="250" alt="Ekran Resmi 2024-04-03 06 37 28" src="https://github.com/erenoske/NetflixClone/assets/108978390/d58a9804-8260-4a38-84f3-6affddef5580">
-<img width="250" alt="Ekran Resmi 2024-04-03 06 38 48" src="https://github.com/erenoske/NetflixClone/assets/108978390/dadee715-9004-438c-9446-110611588ae2">
-<img width="250" alt="Ekran Resmi 2024-04-03 06 41 51" src="https://github.com/erenoske/NetflixClone/assets/108978390/096e7a29-cc5c-4757-9174-1b87603f2eb6">
-<img width="250" alt="Ekran Resmi 2024-04-03 06 42 16" src="https://github.com/erenoske/NetflixClone/assets/108978390/20a40802-0838-4b05-90c0-84ec03bcf32b">
+<img width="250" alt="Ekran Resmi 2024-03-21 04 12 33" src="https://github.com/erenoske/NetflixClone/assets/108978390/21500bf2-5542-47e9-9fa9-44300d9e7073">
+<img width="250" alt="Ekran Resmi 2024-04-03 06 42 16" src="https://github.com/erenoske/NetflixClone/assets/108978390/d9aac1cc-b22b-4941-b14f-e3f2f7e11b05">
+<img width="250" alt="Ekran Resmi 2024-03-21 04 12 35" src="https://github.com/erenoske/NetflixClone/assets/108978390/f9cdbf77-1f31-4235-8cda-c7cb472725a1">
+<img width="250" alt="Ekran Resmi 2024-04-03 06 35 57" src="https://github.com/erenoske/NetflixClone/assets/108978390/2ebe0270-1009-46f4-9203-6b19c633ef19">
+<img width="250" alt="Ekran Resmi 2024-04-03 06 37 28" src="https://github.com/erenoske/NetflixClone/assets/108978390/ef570002-ca12-4c7f-b08e-b7bc56fab14d">
+<img width="250" alt="Ekran Resmi 2024-04-03 06 38 48" src="https://github.com/erenoske/NetflixClone/assets/108978390/1fe48f0c-691f-4fdc-83b2-dd7855823a87">
+<img width="250" alt="Ekran Resmi 2024-04-03 06 41 51" src="https://github.com/erenoske/NetflixClone/assets/108978390/68c46188-1265-4f9b-bc80-94676a90a6cf">
+
