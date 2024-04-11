@@ -1,3 +1,13 @@
+# Netflix Clone for iOS
+
+This project is an iOS app clone of Netflix, built using Swift. It aims to replicate the user interface and fundamental features of the popular streaming service, enabling users to explore a catalog of movies and TV shows, watch trailers.
+
+## Features
+- Browse Content: Explore a diverse collection of movies and TV shows available for streaming.
+- Watch Trailers: View trailers of movies and TV shows to preview the content.
+- Search Functionality: Search for specific movies or TV shows by title.
+- Responsive Design: The app is designed to adapt to various iOS devices, ensuring a consistent user experience.
+
 ## Tools and Technologies Used
 
 - Swift 5
