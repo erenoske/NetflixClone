@@ -126,7 +126,7 @@ class HeroHeaderUIView: UIView {
         let layerHeight: CGFloat = 200
         
         gradientLayer.frame = CGRect(x: (bounds.width - layerWidth) / 2,
-                                     y: 269,
+                                     y: 309,
                                         width: layerWidth,
                                         height: layerHeight)
         
@@ -196,22 +196,22 @@ class HeroHeaderUIView: UIView {
             heroImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             heroImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             heroImageView.widthAnchor.constraint(equalToConstant: 340),
-            heroImageView.heightAnchor.constraint(equalToConstant: 460)
+            heroImageView.heightAnchor.constraint(equalToConstant: 500)
         ]
         
         let titleLabelConstraints = [
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -85),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -95),
             titleLabel.widthAnchor.constraint(equalToConstant: 310)
         ]
         
         let labelScrollViewConstraints = [
             labelScrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            labelScrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -55),
+            labelScrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -65),
             labelScrollView.heightAnchor.constraint(equalToConstant: 30)        ]
 
         let stackViewConstraints = [
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -13),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -23),
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ]
         

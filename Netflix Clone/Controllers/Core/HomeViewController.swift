@@ -47,7 +47,7 @@ class HomeViewController: UIViewController {
         
         configureNavbar()
         
-        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 470))
+        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 520))
         headerView?.delegate = self
         homeFeedTable.tableHeaderView = headerView
         configureHeroHeaderView()
@@ -212,19 +212,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return 40
     }
     
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        guard let header = view as? UITableViewHeaderFooterView else {
-            return
-        }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+
+        let titleLabel = UILabel()
+        titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textColor = .label
+        titleLabel.text = sectionTitles[section]
         
-        header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y , width: 100, height: header.bounds.height)
-        header.textLabel?.textColor = .label
-        header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetterOfEachWord()
+        headerView.addSubview(titleLabel)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        
+        return headerView
     }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitles[section]
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
     }
     
     // Menu bar staying on top

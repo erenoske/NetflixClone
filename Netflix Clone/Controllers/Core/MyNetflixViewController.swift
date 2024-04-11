@@ -97,7 +97,7 @@ extension MyNetflixViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let title = titles[indexPath.row]
-        let model = TitleViewModel(titleName: title.originalName ?? title.originalTitle ?? "Unknown", posterURL: title.posterPath ?? "URL not found")
+        let model = TitleViewModel(titleName: title.originalName ?? title.originalTitle ?? "Unknown", posterURL: title.backdropPath ?? "URL not found")
         let titleModel = Title(id: Int(title.id), mediaType: title.mediaType, originalName: title.originalName, originalTitle: title.originalTitle, posterPath: title.posterPath, backdropPath: title.backdropPath, firstAirDate: title.firstAirDate, overview: title.overview, voteCount: Int(title.voteCount), releaseDate: title.releaseDate, voteAverage: title.voteAverage, genreIds: [])
         cell.configure(with: model, and: titleModel)
         
@@ -105,7 +105,7 @@ extension MyNetflixViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 110
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
