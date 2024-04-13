@@ -50,7 +50,7 @@ class CastCollectionViewCell: UICollectionViewCell {
             posterImageView.topAnchor.constraint(equalTo: topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             posterImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            posterImageView.heightAnchor.constraint(equalToConstant: 170)
+            posterImageView.heightAnchor.constraint(equalToConstant: 175)
         ])
         
         // Title Label

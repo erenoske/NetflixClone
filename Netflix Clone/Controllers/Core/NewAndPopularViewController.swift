@@ -10,6 +10,7 @@ import UIKit
 class NewAndPopularViewController: UIViewController {
     
     private var titles: [Title] = [Title]()
+    private var page = 1
     
     private let upcomingTable: UITableView = {
         
@@ -31,7 +32,7 @@ class NewAndPopularViewController: UIViewController {
         upcomingTable.delegate = self
         upcomingTable.dataSource = self
         
-        fetchUpcoming()
+        fetchUpcoming(pageNumber: 1)
     }
     
     private func configureNavbar() {
@@ -64,11 +65,11 @@ class NewAndPopularViewController: UIViewController {
         upcomingTable.frame = view.bounds
     }
     
-    private func fetchUpcoming() {
-        APICaller.shared.getUpcomingMovies { [weak self] result in
+    private func fetchUpcoming(pageNumber: Int) {
+        APICaller.shared.getUpcomingMovies(page: pageNumber) { [weak self] result in
             switch result {
             case .success(let titles):
-                self?.titles = titles
+                self?.titles.append(contentsOf: titles)
                 DispatchQueue.main.async {
                     self?.upcomingTable.reloadData()
                 }
@@ -119,6 +120,20 @@ extension NewAndPopularViewController: UITableViewDelegate, UITableViewDataSourc
                 }
             case .failure(let error):
                 print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - height - 250 {
+            if page < 4 {
+                page += 1
+                fetchUpcoming(pageNumber: page)
+                print(page)
             }
         }
     }

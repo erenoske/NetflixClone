@@ -11,6 +11,7 @@ protocol CollectionViewTableViewCellDelegate: AnyObject {
     func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreiwViewModel, titleViewModel: Title)
 }
 
+
 class CollectionViewTableViewCell: UITableViewCell {
 
     static let identifier = "CollectionViewTableViewCell"
@@ -18,6 +19,10 @@ class CollectionViewTableViewCell: UITableViewCell {
     weak var delegate: CollectionViewTableViewCellDelegate?
     
     private var titles: [Title] = [Title]()
+    
+    private var pageNumber = 1
+    
+    private var cell: Int?
     
     private let collectionView: UICollectionView = {
         
@@ -49,8 +54,9 @@ class CollectionViewTableViewCell: UITableViewCell {
         collectionView.frame = contentView.bounds
     }
     
-    public func configure(with titles: [Title]) {
-        self.titles = titles
+    public func configure(with titles: [Title], cell: Int) {
+        self.titles.append(contentsOf: titles)
+        self.cell = cell
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
@@ -130,5 +136,72 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
                 return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])
             }
         return config
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetX = scrollView.contentOffset.x
+        let contentWidth = scrollView.contentSize.width
+        let width = scrollView.frame.size.width
+        
+        if offsetX > contentWidth - width - 200 {
+            if pageNumber < 3 {
+                pageNumber += 1
+                
+                switch cell {
+                case Sections.TrendingMovies.rawValue:
+                    APICaller.shared.getTrendingMovies(page: pageNumber) { result in
+                        switch result {
+                        case .success(let titles):
+                            self.configure(with: titles, cell: Sections.TrendingMovies.rawValue)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
+                case Sections.TrendingTv.rawValue:
+                    APICaller.shared.getTrendingTvs(page: pageNumber) { result in
+                        switch result {
+                        case .success(let titles):
+                            self.configure(with: titles, cell: Sections.TrendingTv.rawValue)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
+                case Sections.Popular.rawValue:
+                    APICaller.shared.getPopular(page: pageNumber) { result in
+                        switch result {
+                        case .success(let titles):
+                            self.configure(with: titles, cell: Sections.Popular.rawValue)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
+                case Sections.Upcoming.rawValue:
+                    APICaller.shared.getUpcomingMovies(page: pageNumber) { result in
+                        switch result {
+                        case .success(let titles):
+                            self.configure(with: titles, cell: Sections.Upcoming.rawValue)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
+                case Sections.TopRated.rawValue:
+                    APICaller.shared.getTopRated(page: pageNumber) { result in
+                        switch result {
+                        case .success(let titles):
+                            self.configure(with: titles, cell: Sections.TopRated.rawValue)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
+                default:
+                    return
+                }
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ class HomeViewController: UIViewController {
     private var randomTrendingMovie: Title?
     private var headerView: HeroHeaderUIView?
     private var bgColor: UIColor?
+    private var page = 1
     
     let sectionTitles: [String] = ["Trending Movies", "Trending Tv", "Populer", "Up Coming Movies", "Top rated"]
     
@@ -52,7 +53,7 @@ class HomeViewController: UIViewController {
         homeFeedTable.tableHeaderView = headerView
         configureHeroHeaderView()
         setupRefreshControl()
-    }
+}
     
     private func setupRefreshControl() {
         refreshControl.tintColor = .label
@@ -68,7 +69,7 @@ class HomeViewController: UIViewController {
         let group = DispatchGroup()
         
         group.enter()
-        APICaller.shared.getTrendingMovies { [weak self] result in
+        APICaller.shared.getTrendingMovies(page: 1) { [weak self] result in
             switch result {
             case .success(let titles):
                 let selectedTitle = titles.randomElement()
@@ -148,50 +149,50 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
             
         case Sections.TrendingMovies.rawValue:
-            APICaller.shared.getTrendingMovies { result in
+            APICaller.shared.getTrendingMovies(page: 1) { result in
                 switch result {
                 case .success(let titles):
-                    cell.configure(with: titles)
+                    cell.configure(with: titles, cell: Sections.TrendingMovies.rawValue)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
             
         case Sections.TrendingTv.rawValue:
-            APICaller.shared.getTrendingTvs { result in
+            APICaller.shared.getTrendingTvs(page: 1) { result in
                 switch result {
                 case .success(let titles):
-                    cell.configure(with: titles)
+                    cell.configure(with: titles, cell: Sections.TrendingTv.rawValue)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
             
         case Sections.Popular.rawValue:
-            APICaller.shared.getPopular { result in
+            APICaller.shared.getPopular(page: 1) { result in
                 switch result {
                 case .success(let titles):
-                    cell.configure(with: titles)
+                    cell.configure(with: titles, cell: Sections.Popular.rawValue)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
             
         case Sections.Upcoming.rawValue:
-            APICaller.shared.getUpcomingMovies { result in
+            APICaller.shared.getUpcomingMovies(page: 1) { result in
                 switch result {
                 case .success(let titles):
-                    cell.configure(with: titles)
+                    cell.configure(with: titles, cell: Sections.Upcoming.rawValue)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
             
         case Sections.TopRated.rawValue:
-            APICaller.shared.getTopRated { result in
+            APICaller.shared.getTopRated(page: 1) { result in
                 switch result {
                 case .success(let titles):
-                    cell.configure(with: titles)
+                    cell.configure(with: titles, cell: Sections.TopRated.rawValue)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

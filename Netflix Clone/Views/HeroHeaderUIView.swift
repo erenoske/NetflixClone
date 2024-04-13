@@ -75,8 +75,22 @@ class HeroHeaderUIView: UIView {
         return button
     }()
     
+    private let shadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 10
+        view.layer.shouldRasterize = true
+        view.layer.rasterizationScale = UIScreen.main.scale
+        return view
+    }()
+
+    
     private let heroImageView: UIImageView = {
-       
+        
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderColor = UIColor.label.cgColor
@@ -133,7 +147,8 @@ class HeroHeaderUIView: UIView {
         stackView.addArrangedSubview(playButton)
         stackView.addArrangedSubview(downloadButton)
         addGradient()
-        addSubview(heroImageView)
+        addSubview(shadowView)
+        shadowView.addSubview(heroImageView)
         layer.insertSublayer(gradientLayer, below: self.layer)
         addSubview(titleLabel)
         addSubview(labelScrollView)
@@ -208,7 +223,8 @@ class HeroHeaderUIView: UIView {
         let labelScrollViewConstraints = [
             labelScrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
             labelScrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -65),
-            labelScrollView.heightAnchor.constraint(equalToConstant: 30)        ]
+            labelScrollView.heightAnchor.constraint(equalToConstant: 30)        
+        ]
 
         let stackViewConstraints = [
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -23),
