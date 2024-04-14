@@ -24,7 +24,7 @@ class CollectionViewTableViewCell: UITableViewCell {
     
     private var cell: Int?
     
-    private let collectionView: UICollectionView = {
+    private let titleCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 120, height: 180)
@@ -36,13 +36,30 @@ class CollectionViewTableViewCell: UITableViewCell {
         return collectionView
     }()
     
+    private let topRatedCollectionView: UICollectionView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 230, height: 240)
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(TopRatedCollectionViewCell.self, forCellWithReuseIdentifier: TopRatedCollectionViewCell.identifier)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 10)
+        return collectionView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .systemBackground
-        contentView.addSubview(collectionView)
+        contentView.addSubview(titleCollectionView)
+        contentView.addSubview(topRatedCollectionView)
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        titleCollectionView.delegate = self
+        titleCollectionView.dataSource = self
+        
+        topRatedCollectionView.delegate = self
+        topRatedCollectionView.dataSource = self
     }
 
     required init(coder: NSCoder) {
@@ -51,14 +68,24 @@ class CollectionViewTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        collectionView.frame = contentView.bounds
+        titleCollectionView.frame = contentView.bounds
+        topRatedCollectionView.frame = contentView.bounds
+        
+        if cell == 1 {
+            topRatedCollectionView.isHidden = false
+            titleCollectionView.isHidden = true
+        } else {
+            topRatedCollectionView.isHidden = true
+            titleCollectionView.isHidden = false
+        }
     }
     
     public func configure(with titles: [Title], cell: Int) {
         self.titles.append(contentsOf: titles)
         self.cell = cell
         DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
+            self?.titleCollectionView.reloadData()
+            self?.topRatedCollectionView.reloadData()
         }
     }
     
@@ -83,17 +110,33 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.identifier, for: indexPath) as? TitleCollectionViewCell else {
-            return UICollectionViewCell()
+        
+        if collectionView == titleCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.identifier, for: indexPath) as? TitleCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            guard let model = titles[indexPath.row].posterPath else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configure(with: model)
+            
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopRatedCollectionViewCell.identifier, for: indexPath) as? TopRatedCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            guard let model = titles[indexPath.row].posterPath else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configure(with: model, rate: indexPath.row + 1)
+            
+            return cell
         }
-        
-        guard let model = titles[indexPath.row].posterPath else {
-            return UICollectionViewCell()
-        }
-        
-        cell.configure(with: model)
-        
-        return cell
+
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -183,16 +226,6 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
                         switch result {
                         case .success(let titles):
                             self.configure(with: titles, cell: Sections.Upcoming.rawValue)
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                    
-                case Sections.TopRated.rawValue:
-                    APICaller.shared.getTopRated(page: pageNumber) { result in
-                        switch result {
-                        case .success(let titles):
-                            self.configure(with: titles, cell: Sections.TopRated.rawValue)
                         case .failure(let error):
                             print(error.localizedDescription)
                         }

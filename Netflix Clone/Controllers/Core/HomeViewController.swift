@@ -9,10 +9,10 @@ import UIKit
 
 enum Sections: Int {
     case TrendingMovies = 0
-    case TrendingTv = 1
-    case Popular = 2
-    case Upcoming = 3
-    case TopRated = 4
+    case TopRated = 1
+    case TrendingTv = 2
+    case Popular = 3
+    case Upcoming = 4
 }
 
 class HomeViewController: UIViewController {
@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
     private var bgColor: UIColor?
     private var page = 1
     
-    let sectionTitles: [String] = ["Trending Movies", "Trending Tv", "Populer", "Up Coming Movies", "Top rated"]
+    let sectionTitles: [String] = ["Trending Movies", "Top rated", "Trending Tv", "Populer", "Up Coming Movies"]
     
     private let homeFeedTable: UITableView = {
         
@@ -192,7 +192,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             APICaller.shared.getTopRated(page: 1) { result in
                 switch result {
                 case .success(let titles):
-                    cell.configure(with: titles, cell: Sections.TopRated.rawValue)
+                    let top = Array(titles.prefix(10))
+                    cell.configure(with: top, cell: Sections.TopRated.rawValue)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -206,7 +207,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 180
+        if indexPath.section == 1 {
+            return 240
+        } else {
+            return 180
+        }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
@@ -233,15 +238,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
-    // Menu bar staying on top
-   // func scrollViewDidScroll(_ scrollView: UIScrollView) {
-   //     let defaultOffset = view.safeAreaInsets.top
-   //     let offset = scrollView.contentOffset.y + defaultOffset
-   //
-   //     navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
-   // }
-
 }
 
 
