@@ -22,8 +22,6 @@ class CollectionViewTableViewCell: UITableViewCell {
     
     private var pageNumber = 1
     
-    private var cell: Int?
-    
     private let titleCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
@@ -39,9 +37,8 @@ class CollectionViewTableViewCell: UITableViewCell {
     private let topRatedCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 230, height: 240)
+        layout.itemSize = CGSize(width: 190, height: 170)
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TopRatedCollectionViewCell.self, forCellWithReuseIdentifier: TopRatedCollectionViewCell.identifier)
         collectionView.showsHorizontalScrollIndicator = false
@@ -70,22 +67,24 @@ class CollectionViewTableViewCell: UITableViewCell {
         super.layoutSubviews()
         titleCollectionView.frame = contentView.bounds
         topRatedCollectionView.frame = contentView.bounds
-        
-        if cell == 1 {
-            topRatedCollectionView.isHidden = false
-            titleCollectionView.isHidden = true
-        } else {
-            topRatedCollectionView.isHidden = true
-            titleCollectionView.isHidden = false
-        }
     }
     
     public func configure(with titles: [Title], cell: Int) {
-        self.titles.append(contentsOf: titles)
-        self.cell = cell
+        self.titles = titles
+        
         DispatchQueue.main.async { [weak self] in
+            
+            if cell == 2 {
+                self?.topRatedCollectionView.isHidden = false
+                self?.titleCollectionView.isHidden = true
+            } else {
+                self?.topRatedCollectionView.isHidden = true
+                self?.titleCollectionView.isHidden = false
+            }
+            
             self?.titleCollectionView.reloadData()
             self?.topRatedCollectionView.reloadData()
+            
         }
     }
     
@@ -123,7 +122,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
             cell.configure(with: model)
             
             return cell
-        } else {
+        } else if collectionView == topRatedCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopRatedCollectionViewCell.identifier, for: indexPath) as? TopRatedCollectionViewCell else {
                 return UICollectionViewCell()
             }
@@ -135,6 +134,8 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
             cell.configure(with: model, rate: indexPath.row + 1)
             
             return cell
+        } else {
+            return UICollectionViewCell()
         }
 
     }
@@ -179,62 +180,5 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
                 return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])
             }
         return config
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let offsetX = scrollView.contentOffset.x
-        let contentWidth = scrollView.contentSize.width
-        let width = scrollView.frame.size.width
-        
-        if offsetX > contentWidth - width - 200 {
-            if pageNumber < 3 {
-                pageNumber += 1
-                
-                switch cell {
-                case Sections.TrendingMovies.rawValue:
-                    APICaller.shared.getTrendingMovies(page: pageNumber) { result in
-                        switch result {
-                        case .success(let titles):
-                            self.configure(with: titles, cell: Sections.TrendingMovies.rawValue)
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                    
-                case Sections.TrendingTv.rawValue:
-                    APICaller.shared.getTrendingTvs(page: pageNumber) { result in
-                        switch result {
-                        case .success(let titles):
-                            self.configure(with: titles, cell: Sections.TrendingTv.rawValue)
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                    
-                case Sections.Popular.rawValue:
-                    APICaller.shared.getPopular(page: pageNumber) { result in
-                        switch result {
-                        case .success(let titles):
-                            self.configure(with: titles, cell: Sections.Popular.rawValue)
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                    
-                case Sections.Upcoming.rawValue:
-                    APICaller.shared.getUpcomingMovies(page: pageNumber) { result in
-                        switch result {
-                        case .success(let titles):
-                            self.configure(with: titles, cell: Sections.Upcoming.rawValue)
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                    
-                default:
-                    return
-                }
-            }
-        }
     }
 }

@@ -9,8 +9,8 @@ import UIKit
 
 enum Sections: Int {
     case TrendingMovies = 0
-    case TopRated = 1
-    case TrendingTv = 2
+    case TrendingTv = 1
+    case TopRated = 2
     case Popular = 3
     case Upcoming = 4
 }
@@ -21,8 +21,9 @@ class HomeViewController: UIViewController {
     private var headerView: HeroHeaderUIView?
     private var bgColor: UIColor?
     private var page = 1
+    private let refreshControl = UIRefreshControl()
     
-    let sectionTitles: [String] = ["Trending Movies", "Top rated", "Trending Tv", "Populer", "Up Coming Movies"]
+    let sectionTitles: [String] = ["Trending Movies", "Trending Tv", "Top Rated", "Populer", "Up Coming Movies"]
     
     private let homeFeedTable: UITableView = {
         
@@ -34,8 +35,6 @@ class HomeViewController: UIViewController {
         table.allowsSelection = false
         return table
     }()
-    
-    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -207,11 +206,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 {
-            return 240
-        } else {
-            return 180
-        }
+        return 180
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
