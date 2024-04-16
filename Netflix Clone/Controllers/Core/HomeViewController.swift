@@ -19,9 +19,14 @@ class HomeViewController: UIViewController {
     
     private var randomTrendingMovie: Title?
     private var headerView: HeroHeaderUIView?
-    private var bgColor: UIColor?
     private var page = 1
     private let refreshControl = UIRefreshControl()
+    
+    private var bgColor: UIColor? {
+        didSet {
+            scrollViewDidScroll(homeFeedTable)
+        }
+    }
     
     let sectionTitles: [String] = ["Trending Movies", "Trending Tv", "Top Rated", "Populer", "Up Coming Movies"]
     
@@ -33,6 +38,7 @@ class HomeViewController: UIViewController {
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         table.showsVerticalScrollIndicator = false
         table.allowsSelection = false
+        table.sectionFooterHeight = 0
         return table
     }()
 
@@ -125,6 +131,37 @@ class HomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         homeFeedTable.frame = view.bounds
     }
+    
+    func interpolateColor(from startColor: UIColor, to endColor: UIColor, with progress: CGFloat) -> UIColor {
+        var startRed: CGFloat = 0, startGreen: CGFloat = 0, startBlue: CGFloat = 0, startAlpha: CGFloat = 0
+        var endRed: CGFloat = 0, endGreen: CGFloat = 0, endBlue: CGFloat = 0, endAlpha: CGFloat = 0
+        
+        startColor.getRed(&startRed, green: &startGreen, blue: &startBlue, alpha: &startAlpha)
+        endColor.getRed(&endRed, green: &endGreen, blue: &endBlue, alpha: &endAlpha)
+        
+        let blendedRed = startRed + (endRed - startRed) * progress
+        let blendedGreen = startGreen + (endGreen - startGreen) * progress
+        let blendedBlue = startBlue + (endBlue - startBlue) * progress
+        let blendedAlpha = startAlpha + (endAlpha - startAlpha) * progress
+        
+        return UIColor(red: blendedRed, green: blendedGreen, blue: blendedBlue, alpha: blendedAlpha)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let initialColor = bgColor else {
+            return
+        }
+
+        let currentOffset = scrollView.contentOffset.y
+        let maxOffset: CGFloat = 300
+        
+        let progress = min(1, max(0, currentOffset / maxOffset))
+        let targetColor = UIColor.systemBackground
+
+        let blendedColor = interpolateColor(from: initialColor, to: targetColor, with: progress)
+        
+        homeFeedTable.backgroundColor = blendedColor
+    }
 
 }
 
@@ -210,14 +247,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return 30
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
 
         let titleLabel = UILabel()
-        titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
         titleLabel.textColor = .label
         titleLabel.text = sectionTitles[section]
         
@@ -249,6 +286,10 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
 }
 
 extension HomeViewController: HeroHeaderUIViewDelegate {
+    
+    func color(averageColor: UIColor) {
+        bgColor = averageColor
+    }
     
     func listPopup(title: String) {
         let popupVC = PopupViewController(popupText: title)

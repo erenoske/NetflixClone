@@ -27,7 +27,7 @@ class TopRatedCollectionViewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 60, weight: .heavy)
+        label.font = UIFont.systemFont(ofSize: 58, weight: .heavy)
         label.textColor = .systemGray
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,6 +45,7 @@ class TopRatedCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = .clear
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(posterImageView)
         contentView.addSubview(stackView)
@@ -61,7 +62,7 @@ class TopRatedCollectionViewCell: UICollectionViewCell {
         ]
         
         let titleLabelConstraints = [
-            titleLabel.widthAnchor.constraint(equalToConstant: 75)
+            titleLabel.widthAnchor.constraint(equalToConstant: 70)
         ]
 
         NSLayoutConstraint.activate(stackViewConstraints)

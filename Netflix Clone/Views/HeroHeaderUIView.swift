@@ -10,6 +10,7 @@ import UIKit
 protocol HeroHeaderUIViewDelegate: AnyObject {
     func didSelectMovie(viewModel: TitlePreiwViewModel, titleViewModel: Title)
     func listPopup(title: String)
+    func color(averageColor: UIColor)
 }
 
 class HeroHeaderUIView: UIView {
@@ -118,21 +119,6 @@ class HeroHeaderUIView: UIView {
         return gradientLayer
     }()
     
-    private func addGradient() {
-        let gradientLayerSystem = CAGradientLayer()
-        gradientLayerSystem.colors = [
-            UIColor.systemBackground.cgColor,
-            UIColor.clear.cgColor,
-            UIColor.clear.cgColor,
-            UIColor.clear.cgColor,
-            UIColor.systemBackground.cgColor
-        ]
-        gradientLayerSystem.locations = [0, 0.3, 0.7, 0.8, 1]
-        gradientLayerSystem.frame = bounds
-
-        layer.addSublayer(gradientLayerSystem)
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -146,7 +132,6 @@ class HeroHeaderUIView: UIView {
         
         stackView.addArrangedSubview(playButton)
         stackView.addArrangedSubview(downloadButton)
-        addGradient()
         addSubview(shadowView)
         shadowView.addSubview(heroImageView)
         layer.insertSublayer(gradientLayer, below: self.layer)
@@ -158,7 +143,8 @@ class HeroHeaderUIView: UIView {
         downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
         
         applyConstraints()
-  
+
+        backgroundColor = .clear
     }
     
     @objc func downloadButtonTapped() {
@@ -269,7 +255,7 @@ class HeroHeaderUIView: UIView {
             if let image = image {
                 if let averageColor = image.averageColor() {
                     print("General color: \(averageColor)")
-                    self.backgroundColor = averageColor
+                    self.delegate?.color(averageColor: averageColor)
                     self.gradientLayer.colors = [
                         UIColor.clear.cgColor,
                         averageColor.cgColor

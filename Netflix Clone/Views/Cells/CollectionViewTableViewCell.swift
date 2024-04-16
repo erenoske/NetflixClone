@@ -31,24 +31,30 @@ class CollectionViewTableViewCell: UITableViewCell {
         collectionView.register(TitleCollectionViewCell.self, forCellWithReuseIdentifier: TitleCollectionViewCell.identifier)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        collectionView.isHidden = true
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
     
     private let topRatedCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 190, height: 170)
+        layout.itemSize = CGSize(width: 190, height: 180)
         layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TopRatedCollectionViewCell.self, forCellWithReuseIdentifier: TopRatedCollectionViewCell.identifier)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 10)
+        collectionView.isHidden = true
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .systemBackground
+        self.backgroundColor = UIColor.clear
         contentView.addSubview(titleCollectionView)
         contentView.addSubview(topRatedCollectionView)
         
@@ -76,9 +82,7 @@ class CollectionViewTableViewCell: UITableViewCell {
             
             if cell == 2 {
                 self?.topRatedCollectionView.isHidden = false
-                self?.titleCollectionView.isHidden = true
             } else {
-                self?.topRatedCollectionView.isHidden = true
                 self?.titleCollectionView.isHidden = false
             }
             

@@ -40,3 +40,21 @@ extension UIImage {
         return UIColor(red: CGFloat(bitmap[0]) / 255.0, green: CGFloat(bitmap[1]) / 255.0, blue: CGFloat(bitmap[2]) / 255.0, alpha: 1.0)
     }
 }
+
+extension UIColor {
+    static func interpolateColor(from startColor: UIColor, to endColor: UIColor, with progress: CGFloat) -> UIColor {
+        var startRed: CGFloat = 0, startGreen: CGFloat = 0, startBlue: CGFloat = 0, startAlpha: CGFloat = 0
+        var endRed: CGFloat = 0, endGreen: CGFloat = 0, endBlue: CGFloat = 0, endAlpha: CGFloat = 0
+        
+        startColor.getRed(&startRed, green: &startGreen, blue: &startBlue, alpha: &startAlpha)
+        endColor.getRed(&endRed, green: &endGreen, blue: &endBlue, alpha: &endAlpha)
+        
+        let blendedRed = startRed + (endRed - startRed) * progress
+        let blendedGreen = startGreen + (endGreen - startGreen) * progress
+        let blendedBlue = startBlue + (endBlue - startBlue) * progress
+        let blendedAlpha = startAlpha + (endAlpha - startAlpha) * progress
+        
+        return UIColor(red: blendedRed, green: blendedGreen, blue: blendedBlue, alpha: blendedAlpha)
+    }
+}
+
