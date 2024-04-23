@@ -77,6 +77,10 @@ class SearchViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
     
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchController.searchBar.resignFirstResponder()
+    }
+    
 }
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate{
@@ -158,6 +162,12 @@ extension SearchViewController: UISearchResultsUpdating  {
 }
 
 extension SearchViewController: SearchResultsViewControllerDelagate {
+    
+    func hideKeyboard() {
+        searchController.searchBar.resignFirstResponder()
+        print("test")
+    }
+    
     
     func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel,titleViewModel titleViewmodel: Title) {
         navigationController?.navigationBar.transform = .identity

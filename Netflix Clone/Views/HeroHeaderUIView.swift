@@ -285,7 +285,7 @@ class HeroHeaderUIView: UIView {
 
             let genres = GenreConverter.convertToGenreNames(genreIds: title.genreIds)
 
-            for genre in genres {
+            for (_, genre) in genres.prefix(4).enumerated() {
                 let label = UILabel()
                 label.text = genre
                 label.textColor = .label

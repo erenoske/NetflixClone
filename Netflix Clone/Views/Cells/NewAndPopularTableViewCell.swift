@@ -181,14 +181,13 @@ class NewAndPopularTableViewCell: UITableViewCell {
     private func applyConstraints() {
         
         let stackViewConstraints = [
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ]
     
         let titlesPosterUIImageViewConstraints = [
-            titlesPosterUIImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            titlesPosterUIImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            titlesPosterUIImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             titlesPosterUIImageView.heightAnchor.constraint(equalToConstant: 200)
         ]
         
@@ -214,12 +213,10 @@ class NewAndPopularTableViewCell: UITableViewCell {
         
         // Constraints for downloadButton
         let downloadButtonConstraints = [
-            downloadButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 10),
             downloadButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             downloadButton.heightAnchor.constraint(equalToConstant: 35),
-            downloadButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             downloadButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
         ]
 
         

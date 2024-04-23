@@ -9,6 +9,7 @@ import UIKit
 
 protocol SearchResultsViewControllerDelagate: AnyObject {
     func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel, titleViewModel: Title)
+    func hideKeyboard()
 }
 
 
@@ -50,6 +51,10 @@ class SearchResultsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         searchResultsCollectionView.frame = view.bounds
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.delegate?.hideKeyboard()
     }
 
 }
