@@ -38,6 +38,7 @@ class SearchViewController: UIViewController {
         fetchDiscoverMovies()
         
         searchController.searchResultsUpdater = self
+        
     }
     
     private func configureNavigationBar() {
@@ -79,6 +80,13 @@ class SearchViewController: UIViewController {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         searchController.searchBar.resignFirstResponder()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        searchController.isActive = true
+        DispatchQueue.main.async {
+            self.searchController.searchBar.becomeFirstResponder()
+        }
     }
     
 }
