@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CollectionViewTableViewCellDelegate: AnyObject {
-    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreiwViewModel, titleViewModel: Title)
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreviewViewModel, titleViewModel: Title)
 }
 
 
@@ -25,7 +25,7 @@ class CollectionViewTableViewCell: UITableViewCell {
     private let titleCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 120, height: 180)
+        layout.itemSize = CGSize(width: 108, height: 162)
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TitleCollectionViewCell.self, forCellWithReuseIdentifier: TitleCollectionViewCell.identifier)
@@ -39,7 +39,7 @@ class CollectionViewTableViewCell: UITableViewCell {
     private let topRatedCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 190, height: 180)
+        layout.itemSize = CGSize(width: 171, height: 162)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
@@ -162,7 +162,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
                 guard let strongSelf = self else {
                     return
                 }
-                let viewModel = TitlePreiwViewModel(
+                let viewModel = TitlePreviewViewModel(
                     title: titleName,
                     youtubeView: videoElement,
                     titleOverview: titleOverview)

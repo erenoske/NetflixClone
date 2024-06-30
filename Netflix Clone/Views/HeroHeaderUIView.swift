@@ -8,7 +8,7 @@
 import UIKit
 
 protocol HeroHeaderUIViewDelegate: AnyObject {
-    func didSelectMovie(viewModel: TitlePreiwViewModel, titleViewModel: Title)
+    func didSelectMovie(viewModel: TitlePreviewViewModel, titleViewModel: Title)
     func listPopup(title: String)
     func color(averageColor: UIColor)
 }
@@ -180,7 +180,7 @@ class HeroHeaderUIView: UIView {
                     return
                 }
                 
-                let viewModel = TitlePreiwViewModel(
+                let viewModel = TitlePreviewViewModel(
                     title: titleName,
                     youtubeView: videoElement,
                     titleOverview: titleOverview)

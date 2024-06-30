@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SearchResultsViewControllerDelagate: AnyObject {
-    func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel, titleViewModel: Title)
+    func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreviewViewModel, titleViewModel: Title)
     func hideKeyboard()
 }
 
@@ -87,7 +87,7 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     self?.delegate?.searchResultsViewControllerDidTabItem(
-                        TitlePreiwViewModel(
+                        TitlePreviewViewModel(
                             title: title.originalTitle ?? "",
                             youtubeView: videoElement,
                             titleOverview: title.overview ?? ""

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TitlePreiwViewModel {
+struct TitlePreviewViewModel {
     let title: String
     let youtubeView: VideoElement
     let titleOverview: String

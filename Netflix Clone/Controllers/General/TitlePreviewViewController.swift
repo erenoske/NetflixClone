@@ -190,6 +190,9 @@ class TitlePreviewViewController: UIViewController {
             switch result {
             case .success(let titles):
                 self.casts = titles
+                DispatchQueue.main.async {
+                    self.castCollectionView.reloadData()
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -382,7 +385,7 @@ class TitlePreviewViewController: UIViewController {
         NSLayoutConstraint.activate(castCollectionViewConstraints)
     }
     
-    func configure(with model: TitlePreiwViewModel, and titleModel: Title) {
+    func configure(with model: TitlePreviewViewModel, and titleModel: Title) {
         titleLabel.text = model.title
         overviewLabel.text = model.titleOverview
         voteAverage.text = String(format: "%.1f", titleModel.voteAverage)

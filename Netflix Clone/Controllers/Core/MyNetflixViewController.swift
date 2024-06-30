@@ -141,7 +141,7 @@ extension MyNetflixViewController: UITableViewDelegate, UITableViewDataSource {
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
                     let titleModel = Title(id: Int(title.id), mediaType: title.mediaType, originalName: title.originalName, originalTitle: title.originalTitle, posterPath: title.posterPath, backdropPath: title.backdropPath, firstAirDate: title.firstAirDate, overview: title.overview, voteCount: Int(title.voteCount), releaseDate: title.releaseDate, voteAverage: title.voteAverage, genreIds: [120])
-                    vc.configure(with: TitlePreiwViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), and: titleModel)
+                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), and: titleModel)
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):

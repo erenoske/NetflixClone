@@ -132,20 +132,6 @@ class HomeViewController: UIViewController {
         homeFeedTable.frame = view.bounds
     }
     
-    func interpolateColor(from startColor: UIColor, to endColor: UIColor, with progress: CGFloat) -> UIColor {
-        var startRed: CGFloat = 0, startGreen: CGFloat = 0, startBlue: CGFloat = 0, startAlpha: CGFloat = 0
-        var endRed: CGFloat = 0, endGreen: CGFloat = 0, endBlue: CGFloat = 0, endAlpha: CGFloat = 0
-        
-        startColor.getRed(&startRed, green: &startGreen, blue: &startBlue, alpha: &startAlpha)
-        endColor.getRed(&endRed, green: &endGreen, blue: &endBlue, alpha: &endAlpha)
-        
-        let blendedRed = startRed + (endRed - startRed) * progress
-        let blendedGreen = startGreen + (endGreen - startGreen) * progress
-        let blendedBlue = startBlue + (endBlue - startBlue) * progress
-        let blendedAlpha = startAlpha + (endAlpha - startAlpha) * progress
-        
-        return UIColor(red: blendedRed, green: blendedGreen, blue: blendedBlue, alpha: blendedAlpha)
-    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let initialColor = bgColor else {
@@ -254,7 +240,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let headerView = UIView()
 
         let titleLabel = UILabel()
-        titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
         titleLabel.textColor = .label
         titleLabel.text = sectionTitles[section]
         
@@ -268,20 +254,19 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 25
     }
 }
 
 
 extension HomeViewController: CollectionViewTableViewCellDelegate {
     
-    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreiwViewModel, titleViewModel: Title) {
-        DispatchQueue.main.async  { [weak self] in
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreviewViewModel, titleViewModel: Title) {
+        DispatchQueue.main.async { [weak self] in
             let vc = TitlePreviewViewController()
             vc.configure(with: viewModel, and: titleViewModel)
-            self?.navigationController?.pushViewController(vc, animated: true)
+            self?.present(vc, animated: true, completion: nil)
         }
-
     }
 }
 
@@ -298,7 +283,7 @@ extension HomeViewController: HeroHeaderUIViewDelegate {
     }
     
     
-    func didSelectMovie(viewModel: TitlePreiwViewModel, titleViewModel: Title) {
+    func didSelectMovie(viewModel: TitlePreviewViewModel, titleViewModel: Title) {
         DispatchQueue.main.async  { [weak self] in
             let vc = TitlePreviewViewController()
             vc.configure(with: viewModel, and: titleViewModel)

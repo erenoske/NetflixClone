@@ -41,8 +41,8 @@ extension UIImage {
     }
 }
 
-extension UIColor {
-    static func interpolateColor(from startColor: UIColor, to endColor: UIColor, with progress: CGFloat) -> UIColor {
+extension UIViewController {
+     func interpolateColor(from startColor: UIColor, to endColor: UIColor, with progress: CGFloat) -> UIColor {
         var startRed: CGFloat = 0, startGreen: CGFloat = 0, startBlue: CGFloat = 0, startAlpha: CGFloat = 0
         var endRed: CGFloat = 0, endGreen: CGFloat = 0, endBlue: CGFloat = 0, endAlpha: CGFloat = 0
         

@@ -128,7 +128,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate{
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreiwViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), and: title)
+                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), and: title)
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):
@@ -177,7 +177,7 @@ extension SearchViewController: SearchResultsViewControllerDelagate {
     }
     
     
-    func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreiwViewModel,titleViewModel titleViewmodel: Title) {
+    func searchResultsViewControllerDidTabItem(_ viewModel: TitlePreviewViewModel,titleViewModel titleViewmodel: Title) {
         navigationController?.navigationBar.transform = .identity
         DispatchQueue.main.async { [weak self] in
             let vc = TitlePreviewViewController()

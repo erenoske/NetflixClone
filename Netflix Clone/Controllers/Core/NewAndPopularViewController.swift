@@ -115,7 +115,7 @@ extension NewAndPopularViewController: UITableViewDelegate, UITableViewDataSourc
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreiwViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), and: title)
+                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), and: title)
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):
