@@ -9,8 +9,8 @@ import Foundation
 import SystemConfiguration
 
 struct Constants {
-    static let API_KEY = "2faa3eaa93dc9edc706c637e27a3902d"
-    static let baseURL = "https://api.themoviedb.org/"
+    static let API_KEY = "25f42d6d1a50b209c73e8982695e4bc8"
+    static let baseURL = "https://api.themoviedb.org"
     static let YoutubeAPI_KEY = "AIzaSyBgF5z4dQ1RwosOm9G9MkQbot4Lp6_VqL8"
     static let YoutubeBaseUrl = "https://youtube.googleapis.com/youtube/v3/search?"
 }
